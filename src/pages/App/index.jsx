@@ -15,6 +15,7 @@ function App() {
 
   const { idioma, handleChangeIdioma } = useIdioma()
   const { tema, handleChangeTema } = useTema()
+  const [algo, setAlgo] = useState('')
 
   return (
     <div className='min-h-screen min-w-screen flex flex-col dark:bg-zinc-950'>
