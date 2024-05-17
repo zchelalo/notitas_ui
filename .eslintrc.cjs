@@ -16,6 +16,15 @@ module.exports = {
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
-    ],
+    ]
   },
+  overrides: [
+    {
+      files: ['src/**/*.js', 'src/**/*.jsx'], // Aplica estas reglas solo a los archivos dentro de la carpeta src
+      rules: {
+        'semi': ['error', 'never'],
+        'quotes': ['error', 'single']
+      },
+    },
+  ],
 }
