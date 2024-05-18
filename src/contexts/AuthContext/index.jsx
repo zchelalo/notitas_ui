@@ -68,7 +68,7 @@ function AuthProvider({ children }) {
   const logout = () => {
     Cookies.remove('usuario')
     setUsuario(null)
-    navigate('/home')
+    navigate('/landing')
   }
 
   const auth = { usuario, usuarioVerificado, login, logout }

@@ -10,7 +10,7 @@ function AuthRoute({ children }) {
   }
 
   if (!auth.usuario) {
-    return <Navigate to='/home' />
+    return <Navigate to='/landing' />
   }
 
   return children

@@ -71,6 +71,17 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      transitionProperty: {
+        'width': 'width',
+        'spacing': 'margin, padding',
+      },
+    },
+  },
+  variants: {
+    extend: {
+      display: ['group-hover'],
+      opacity: ['group-hover'],
+      translate: ['group-hover'],
     },
   },
   plugins: [require("tailwindcss-animate")],
