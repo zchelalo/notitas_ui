@@ -12,10 +12,8 @@ import { Toaster } from '@/components/ui/toaster'
 import { Layout } from '@/components/Layout'
 
 import {
-  HiOutlineUserCircle,
   HiOutlineUserGroup,
   HiOutlineCog6Tooth,
-  HiOutlinePencilSquare,
   HiOutlineLockClosed,
   HiOutlineArrowRightOnRectangle,
   HiOutlinePlusCircle
@@ -23,24 +21,7 @@ import {
 
 import logo from '@/assets/img/logo.png'
 
-const items = [
-  {
-    nombre: 'Perfil',
-    icono: <HiOutlineUserCircle />,
-    // ruta: '#',
-    subitems: [
-      {
-        nombre: 'Editar',
-        icono: <HiOutlinePencilSquare />,
-        ruta: '#'
-      },
-      {
-        nombre: 'Mis notitas privadas',
-        icono: <HiOutlineLockClosed />,
-        ruta: '#'
-      }
-    ]
-  },
+const items2 = [
   {
     nombre: 'Grupos',
     icono: <HiOutlineUserGroup  />,
@@ -95,6 +76,45 @@ function App() {
   const { idioma, handleChangeIdioma } = useIdioma()
   const { tema, handleChangeTema } = useTema()
 
+  const items = routes.reduce((rutas, ruta) => {
+    if (!ruta.name) return rutas
+
+    if (ruta.private && !auth.usuario) return rutas
+
+    if (ruta.allowed_roles && !ruta.allowed_roles.includes(auth.usuario.rol)) return rutas
+
+    if (ruta.public_only && auth.usuario) return rutas
+
+    if (ruta.nestedRoutes) {
+      rutas.push({
+        nombre: ruta.name,
+        icono: ruta.icon,
+        ruta: ruta.path,
+        subitems: ruta.nestedRoutes.reduce((rutasAnidadas, rutaAnidada) => {
+          if (!rutaAnidada.name) return rutasAnidadas
+
+          rutasAnidadas.push({
+            nombre: rutaAnidada.name,
+            icono: rutaAnidada.icon,
+            ruta: rutaAnidada.path
+          })
+
+          return rutasAnidadas
+        }, [])
+      })
+
+      return rutas
+    }
+
+    rutas.push({
+      nombre: ruta.name,
+      icono: ruta.icon,
+      ruta: ruta.path
+    })
+
+    return rutas
+  }, [])
+
   return (
     <Layout
       items={items}
@@ -109,34 +129,39 @@ function App() {
       tema={tema}
     >
       <Routes>
-        {routes &&
-          routes.map((route) => {
-            if (route.nestedRoutes) {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-                >
-                  {route.nestedRoutes.map((nestedRoute) => (
-                    <Route
-                      key={nestedRoute.path}
-                      path={nestedRoute.path}
-                      element={nestedRoute.element}
-                    />
-                  ))}
-                </Route>
-              )
-            } else {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-                />
-              )
-            }
-          })}
+        {routes && routes.map(route => {
+          if (route.private && !auth.usuario) return undefined
+
+          if (route.allowed_roles && !route.allowed_roles.includes(auth.usuario.rol)) return undefined
+      
+          if (route.public_only && auth.usuario) return undefined
+
+          if (route.nestedRoutes) {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              >
+                {route.nestedRoutes.map(nestedRoute => (
+                  <Route
+                    key={nestedRoute.path}
+                    path={nestedRoute.path}
+                    element={nestedRoute.element}
+                  />
+                ))}
+              </Route>
+            )
+          } else {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            )
+          }
+        })}
       </Routes>
       <Toaster />
     </Layout>
