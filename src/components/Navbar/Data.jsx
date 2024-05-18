@@ -1,30 +1,30 @@
 import {
-  CogIcon,
-  UserCircleIcon,
-  UserGroupIcon,
-  ArrowsUpDownIcon
-} from '@heroicons/react/24/solid'
+  HiCog6Tooth,
+  HiUserCircle,
+  HiUserGroup,
+  HiArrowsUpDown
+} from 'react-icons/hi2'
 
 const items = [
   {
     key: '1',
-    icon: <UserCircleIcon className='w-6' />,
+    icon: <HiUserCircle />,
     label: 'Perfil',
   },
   {
     key: '2',
-    icon: <UserGroupIcon className='w-6' />,
+    icon: <HiUserGroup />,
     label: 'Grupos',
   },
   {
     key: '3',
-    icon: <CogIcon className='w-6' />,
+    icon: <HiCog6Tooth />,
     label: 'Configuración',
   },
   {
     key: 'sub1',
     label: 'Navigation One',
-    icon: <ArrowsUpDownIcon className='w-6' />,
+    icon: <HiArrowsUpDown />,
     children: [
       {
         key: '5',
@@ -40,6 +40,29 @@ const items = [
       },
       {
         key: '8',
+        label: 'Option 8',
+      },
+    ],
+  },
+  {
+    key: 'sub2',
+    label: 'Navigation One',
+    icon: <HiArrowsUpDown />,
+    children: [
+      {
+        key: '9',
+        label: 'Option 5',
+      },
+      {
+        key: '10',
+        label: 'Option 6',
+      },
+      {
+        key: '11',
+        label: 'Option 7',
+      },
+      {
+        key: '12',
         label: 'Option 8',
       },
     ],
