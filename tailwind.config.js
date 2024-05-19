@@ -17,6 +17,19 @@ module.exports = {
       },
     },
     extend: {
+      width: {
+        '128': '32rem', // 512px
+        '160': '40rem', // 640px
+        '176': '44rem', // 704px
+        '192': '48rem', // 768px
+      },
+      height: {
+        '128': '32rem', // 512px
+        '144': '36rem', // 576px
+        '160': '40rem', // 640px
+        '176': '44rem', // 704px 
+        '192': '48rem', // 768px
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
