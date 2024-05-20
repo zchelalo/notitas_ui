@@ -1,0 +1,7 @@
+.dark .login-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+.login-shadow {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}

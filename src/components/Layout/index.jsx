@@ -92,7 +92,7 @@ function Layout({
   }
 
   return (
-    <div className='min-h-screen w-full relative bg-zinc-100 dark:bg-neutral-900'>
+    <div className='min-h-screen w-full relative bg-zinc-100 dark:bg-zinc-900'>
       <div className={`z-10 fixed h-screen transition-all duration-200 ease-in-out flex flex-col justify-center items-center bg-zinc-200 dark:bg-zinc-950 ${isOpen ? 'w-48 md:w-64' : 'w-10 md:w-12'} overflow-hidden overflow-y-auto navbar`}>
         <header className='w-full flex flex-col justify-center items-center p-4'>
           <figure className={`flex flex-col justify-center items-center transition-all duration-200 ease-in-out ${isOpen ? 'w-32' : 'w-12'}`}>
