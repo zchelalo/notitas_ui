@@ -1,3 +1,11 @@
 {
-  "home": "Inicio"
+  "home": "Inicio",
+  "email_title": "Correo electrónico",
+  "password_title": "Contraseña",
+  "email_validation": "El correo electrónico no es válido",
+  "password_validation": "La contraseña debe tener al menos 8 caracteres",
+  "login_title": "Inicio de sesión",
+  "login_subtitle": "Ingresa con tu correo y contraseña debajo para iniciar sesión",
+  "register": "Registrarse",
+  "continue": "Continuar"
 }

@@ -1,3 +1,11 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "email_title": "Email",
+  "password_title": "Password",
+  "email_validation": "The email is not valid",
+  "password_validation": "Password must be at least 8 characters",
+  "login_title": "Log in",
+  "login_subtitle": "Enter with your email and password below to log in",
+  "register": "Sign up",
+  "continue": "Continue"
 }
