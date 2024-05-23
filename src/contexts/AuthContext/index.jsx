@@ -1,11 +1,10 @@
 import { createContext, useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
 
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/components/ui/use-toast'
 import { useTranslation } from 'react-i18next'
 
-import { obtenerUsuarioDesdeCookies, guardarUsuarioEnCookies } from '@/lib/utils'
+import { obtenerUsuarioDesdeStorage, guardarUsuarioEnStorage } from '@/lib/utils'
 import { fetchData } from '@/lib/utils'
 import { back_url } from '@/config/const'
 
@@ -21,13 +20,13 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
-      const usuarioCookie = obtenerUsuarioDesdeCookies()
+      const usuarioCookie = obtenerUsuarioDesdeStorage()
       if (usuarioCookie) {
         setUsuario(usuarioCookie)
       } 
       setUsuarioVerificado(true)
     } catch (error) {
-      console.error('Error al obtener usuario desde cookies:', error)
+      console.error('Error al obtener usuario desde el local storage:', error)
       navigate('/home')
     }
   }, [])
@@ -44,7 +43,7 @@ function AuthProvider({ children }) {
         })
       })
 
-      guardarUsuarioEnCookies(response)      
+      guardarUsuarioEnStorage(response)      
       setUsuario(response)
       navigate('/')
     } catch (error) {
@@ -73,7 +72,7 @@ function AuthProvider({ children }) {
         title: data.message
       })
 
-      Cookies.remove('usuario')
+      localStorage.removeItem('usuario')
       setUsuario(null)
       navigate('/landing')
     } catch (error) {

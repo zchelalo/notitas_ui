@@ -1,6 +1,5 @@
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { back_url } from '@/config/const'
 
@@ -8,23 +7,23 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
-export const obtenerUsuarioDesdeCookies = () => {
-  const usuarioCookie = Cookies.get('usuario')
-  return usuarioCookie ? JSON.parse(usuarioCookie) : null
+export const obtenerUsuarioDesdeStorage = () => {
+  const usuario = localStorage.getItem('usuario')
+  return usuario ? JSON.parse(usuario) : null
 }
 
-export const guardarUsuarioEnCookies = (response) => {
+export const guardarUsuarioEnStorage = (response) => {
   let tokenDecoded = jwtDecode(response.token)
   // const expDate = new Date(tokenDecoded.exp * 1000)
 
-  const usuarioResponse = {
+  const usuario = {
     token: response.token,
     id: tokenDecoded.sub,
     rol: tokenDecoded.rol,
     nombre: response.nombre
   }
 
-  Cookies.set('usuario', JSON.stringify(usuarioResponse))
+  localStorage.setItem('usuario', JSON.stringify(usuario))
 }
 
 export const primeraMayuscula = (string) => {
@@ -58,8 +57,8 @@ export const fetchData = async ({
         if (refreshResponse.ok) {
           const refreshData = await refreshResponse.json()
 
-          // Guardar el nuevo token en las cookies
-          guardarUsuarioEnCookies(refreshData)
+          // Guardar el nuevo token en local storage
+          guardarUsuarioEnStorage(refreshData)
 
           // Guardar el nuevo token en los encabezados
           headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
