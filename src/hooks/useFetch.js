@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { back_url } from '@/config/const'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
+
+import { fetchData } from '@/lib/utils'
 
 function useFetch({ url, method = 'GET', body = null, headers = { 'Content-Type': 'application/json' } }) {
   const [data, setData] = useState(null)
@@ -15,32 +16,27 @@ function useFetch({ url, method = 'GET', body = null, headers = { 'Content-Type'
     setLoading(true)
     const obtenerData = async () => {
       try {
-        const response = await fetch(`${back_url}${url}`, {
+        const response = await fetchData({
+          url: `${back_url}${url}`,
           method: method,
           headers: headers,
           body: body
         })
 
-        if (!response.ok) {
-          // Si la respuesta no es exitosa, lanzar un error con el mensaje del servidor
-          toast({
-            title: 'Error',
-            description: response.statusText,
-            status: 'error'
-          })
-
-          if (response.status === 401) {
-            auth.logout()
-          }
-
-          throw { error: response.statusText }
-        }
-
-        const data = await response.json()
-        setData(data)
+        setData(response)
         setError(null)
       } catch (error) {
-        setError(error)
+        toast({
+          title: 'Error',
+          description: error.error,
+          status: 'error'
+        })
+    
+        if (error.status === 401) {
+          auth.logout()
+        }
+
+        setError(error.error)
       } finally {
         setLoading(false)
       }

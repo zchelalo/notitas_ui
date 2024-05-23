@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext/useAuth'
 
 import { Button } from '@/components/ui/button'
 import { NavLink } from 'react-router-dom'
@@ -9,7 +10,8 @@ import {
   HiOutlineSun,
   HiOutlineMoon,
   HiOutlineLanguage,
-  HiOutlineBars3
+  HiOutlineBars3,
+  HiOutlineArrowRightOnRectangle
 } from 'react-icons/hi2'
 
 import './Layout.css'
@@ -28,6 +30,8 @@ function Layout({
 
   children
 }) {
+  const auth = useAuth()
+
   const [expandedItem, setExpandedItem] = useState(null)
   const [subMenuPosition, setSubMenuPosition] = useState({ top: 0, left: 0 })
 
@@ -66,7 +70,7 @@ function Layout({
 
     return createPortal(
       <ul
-        className='bg-zinc-300 dark:bg-zinc-900 z-20 absolute left-10 md:left-12 top-0 rounded-tr rounded-br'
+        className='bg-zinc-200 dark:bg-zinc-950 z-20 absolute left-10 md:left-12 top-0 rounded-tr rounded-br'
         style={{ top: subMenuPosition.top }}
       >
         {subitems.map((subitem, index) => (
@@ -140,6 +144,14 @@ function Layout({
             </ul>
           </nav>
           <footer className={`pb-5 flex ${isOpen ? 'flex-row' : 'flex-col'}`}>
+            {auth.usuario ? (
+              <Button
+                className='bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-2 rounded cursor-pointer m-1'
+                onClick={auth.logout}
+              >
+                <HiOutlineArrowRightOnRectangle  />
+              </Button>
+            ) : undefined}
             <Button
               className='bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-2 rounded cursor-pointer m-1'
               onClick={() => handleChangeTema(tema === 'light' ? 'dark' : 'light')}

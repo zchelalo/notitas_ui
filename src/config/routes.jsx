@@ -17,7 +17,7 @@ import {
   HiOutlineLockClosed,
   HiOutlineArrowRightOnRectangle,
   HiOutlinePlusCircle,
-  HiOutlineArrowLeftEndOnRectangle,
+  HiOutlineArrowRightEndOnRectangle,
   HiOutlineHomeModern
 } from 'react-icons/hi2'
 
@@ -56,7 +56,7 @@ function Rutas() {
       private: false,
       public_only: true,
       name: 'Iniciar sesión',
-      icon: <HiOutlineArrowLeftEndOnRectangle />
+      icon: <HiOutlineArrowRightEndOnRectangle />
     },
     {
       path: '',

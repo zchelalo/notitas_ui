@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from 'react'
-import { jwtDecode } from 'jwt-decode'
 import Cookies from 'js-cookie'
 
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/components/ui/use-toast'
 import { useTranslation } from 'react-i18next'
 
-import { obtenerUsuarioDesdeCookies } from '@/lib/utils'
+import { obtenerUsuarioDesdeCookies, guardarUsuarioEnCookies } from '@/lib/utils'
 import { fetchData } from '@/lib/utils'
+import { back_url } from '@/config/const'
 
 const AuthContext = createContext()
 
@@ -43,18 +43,8 @@ function AuthProvider({ children }) {
         })
       })
 
-      let tokenDecoded = jwtDecode(response.token)
-      const expDate = new Date(tokenDecoded.exp * 1000)
-
-      const usuarioResponse = {
-        token: response.token,
-        id: tokenDecoded.sub,
-        rol: tokenDecoded.rol,
-        nombre: response.nombre
-      }
-
-      Cookies.set('usuario', JSON.stringify(usuarioResponse), { expires: expDate })
-      setUsuario(usuarioResponse)
+      guardarUsuarioEnCookies(response)      
+      setUsuario(response)
       navigate('/')
     } catch (error) {
       toast({
@@ -65,10 +55,32 @@ function AuthProvider({ children }) {
     }
   }
 
-  const logout = () => {
-    Cookies.remove('usuario')
-    setUsuario(null)
-    navigate('/landing')
+  const logout = async () => {
+    try {
+      const response = await fetch(`${back_url}/notitas_auth/api/v1/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        throw { status: response.status, error: response.statusText }
+      }
+
+      const data = await response.json()
+
+      toast({
+        title: data.message
+      })
+
+      Cookies.remove('usuario')
+      setUsuario(null)
+      navigate('/landing')
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.error
+      })
+    }
   }
 
   const auth = { usuario, usuarioVerificado, login, logout }
