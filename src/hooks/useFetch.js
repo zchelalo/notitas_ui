@@ -17,7 +17,7 @@ function useFetch({ url, method = 'GET', body = null, headers = { 'Content-Type'
     const obtenerData = async () => {
       try {
         const response = await fetchData({
-          url: `${back_url}${url}`,
+          url: url,
           method: method,
           headers: headers,
           body: body

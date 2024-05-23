@@ -37,6 +37,7 @@ function AuthProvider({ children }) {
       const response = await fetchData({
         url: `/notitas_auth/api/v1/auth/login`,
         method: 'POST',
+        credentials: 'include',
         body: JSON.stringify({
           correo,
           password

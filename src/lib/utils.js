@@ -15,7 +15,7 @@ export const obtenerUsuarioDesdeCookies = () => {
 
 export const guardarUsuarioEnCookies = (response) => {
   let tokenDecoded = jwtDecode(response.token)
-  const expDate = new Date(tokenDecoded.exp * 1000)
+  // const expDate = new Date(tokenDecoded.exp * 1000)
 
   const usuarioResponse = {
     token: response.token,
@@ -24,19 +24,26 @@ export const guardarUsuarioEnCookies = (response) => {
     nombre: response.nombre
   }
 
-  Cookies.set('usuario', JSON.stringify(usuarioResponse), { expires: expDate })
+  Cookies.set('usuario', JSON.stringify(usuarioResponse))
 }
 
 export const primeraMayuscula = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const fetchData = async ({ url, method = 'GET', body = null, headers = { 'Content-Type': 'application/json' } }) => {
+export const fetchData = async ({
+  url,
+  method = 'GET',
+  body = null,
+  headers = { 'Content-Type': 'application/json' },
+  credentials
+}) => {
   try {
     const response = await fetch(`${back_url}${url}`, {
       method: method,
       headers: headers,
-      body: body
+      body: body,
+      credentials
     })
 
     if (!response.ok) { 
@@ -44,6 +51,7 @@ export const fetchData = async ({ url, method = 'GET', body = null, headers = { 
         // Intentar renovar el token
         const refreshResponse = await fetch(`${back_url}/notitas_auth/api/v1/auth/refresh`, {
           method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include' // Esto es para incluir las cookies httpOnly en la solicitud
         })
 
