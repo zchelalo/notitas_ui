@@ -6,6 +6,13 @@
   "password_validation": "La contraseña debe tener al menos 8 caracteres",
   "login_title": "Inicio de sesión",
   "login_subtitle": "Ingresa con tu correo y contraseña debajo para iniciar sesión",
-  "register": "Registrarse",
-  "continue": "Continuar"
+  "register": "Registrate",
+  "login": "Iniciar sesión",
+  "register_title": "Registrarse",
+  "continue": "Continuar",
+  "Register_subtitle" : "¡Únete a Notitas 😉!",
+  "name_title": "Nombre completo",
+  "name_placeholder": "Ingresa tu nombre completo",
+  "confirm_password_title" : "Confirmar contraseña",
+  "confirm_password_placeholder" : "Confirma tu contraseña"
 }

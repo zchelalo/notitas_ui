@@ -6,6 +6,7 @@ import { Home } from '@/pages/Home'
 import { Landing } from '@/pages/Landing'
 import { Error404 } from '@/pages/Error404'
 import { Login } from '@/pages/Login'
+import { Registro } from '@/pages/Register'
 import { EditarPerfil } from '@/pages/EditarPerfil'
 import { NotitasPrivadas } from '@/pages/NotitasPrivadas'
 
@@ -97,6 +98,18 @@ function Rutas() {
           icon: <HiOutlineLockClosed />
         }
       ]
+    },
+    {
+      path: '/register',
+      element: (
+        <PublicRoute>
+          <Registro />
+        </PublicRoute>
+      ),
+      private: false,
+      public_only: true,
+      name: 'Registrate',
+      icon: <HiOutlineArrowRightEndOnRectangle />
     },
     {
       path: '*',
