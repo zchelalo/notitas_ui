@@ -7,5 +7,12 @@
   "login_title": "Log in",
   "login_subtitle": "Enter with your email and password below to log in",
   "register": "Sign up",
-  "continue": "Continue"
+  "login": "Log in",
+  "register_title": "Sign up",
+  "continue": "Continue",
+  "Register_subtitle" : "¡Join Notitas 😉!",
+  "name_title": "Full name",
+  "name_placeholder": "Enter your full name",
+  "confirm_password_title" : "Confirm your password",
+  "confirm_password_placeholder" : "Enter your password again"
 }

@@ -1,4 +1,5 @@
 import logoLogin from './logoLogin.svg'
+import {NavLink} from 'react-router-dom';
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useTranslation } from 'react-i18next'
@@ -54,9 +55,9 @@ function Login() {
         {/* caja #2 */}
         <div className='w-full h-5/6 md:w-1/2 relative flex flex-col justify-center items-center bg-zinc-100 dark:bg-zinc-900 login-shadow'>
           <div className='absolute right-0 top-0'>
-            <Button className='flex justify-end self-end bg-transparent shadow-none rounded-none font-light dark:text-white dark:hover:bg-zinc-600 text-black hover:bg-slate-300 '>
+            <NavLink to='/register' className="p-1 flex shadow-none rounded-none font-light text-black hover:underline">
               {t('register')}
-            </Button>
+            </NavLink>
           </div>
           <div className='h-full w-10/12 sm:w-8/12 md:w-9/12 lg:w-7/12 xl:w-6/12 flex flex-col items-center justify-center'>
             <h1 className='mb-2 text-4xl text-center font-bold'>
