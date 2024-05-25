@@ -55,7 +55,7 @@ function Login() {
         {/* caja #2 */}
         <div className='w-full h-5/6 md:w-1/2 relative flex flex-col justify-center items-center bg-zinc-100 dark:bg-zinc-900 login-shadow'>
           <div className='absolute right-0 top-0'>
-            <NavLink to='/register' className="p-1 flex shadow-none rounded-none font-light text-black hover:underline">
+            <NavLink to='/register' className="p-1 flex shadow-none rounded-nonefont-light dark:text-white dark:hover:underline text-black hover:underline">
               {t('register')}
             </NavLink>
           </div>
