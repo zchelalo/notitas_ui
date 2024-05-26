@@ -2,17 +2,18 @@
   "home": "Inicio",
   "email_title": "Correo electrónico",
   "password_title": "Contraseña",
+  "name_validation": "El nombre debe tener al menos 3 caracteres",
   "email_validation": "El correo electrónico no es válido",
   "password_validation": "La contraseña debe tener al menos 8 caracteres",
   "login_title": "Inicio de sesión",
   "login_subtitle": "Ingresa con tu correo y contraseña debajo para iniciar sesión",
   "register": "Registrate",
-  "login": "Iniciar sesión",
+  "login": "Inicia sesión",
   "register_title": "Registrarse",
   "continue": "Continuar",
-  "Register_subtitle" : "¡Únete a Notitas 😉!",
+  "register_subtitle": "¡Únete a Notitas!",
   "name_title": "Nombre completo",
   "name_placeholder": "Ingresa tu nombre completo",
-  "confirm_password_title" : "Confirmar contraseña",
-  "confirm_password_placeholder" : "Confirma tu contraseña"
+  "confirm_password_title": "Confirmar contraseña",
+  "password_match_validation": "Las contraseñas no coinciden"
 }

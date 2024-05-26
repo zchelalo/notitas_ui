@@ -1,12 +1,13 @@
-import logoLogin from './logoLogin.svg'
-import {NavLink} from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/contexts/AuthContext/useAuth'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '@/contexts/AuthContext/useAuth'
 import { useForm } from 'react-hook-form'
+
+import { NavLink } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Form,
   FormControl,
@@ -15,6 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+
+import logoLogin from './logoLogin.svg'
 
 import './Login.css'
 
@@ -39,7 +42,6 @@ function Login() {
     },
   })
 
-  // 2. Define a submit handler.
   const onSubmit = async ({ correo, password }) => {
     await auth.login(correo, password)
   }
@@ -55,7 +57,10 @@ function Login() {
         {/* caja #2 */}
         <div className='w-full h-5/6 md:w-1/2 relative flex flex-col justify-center items-center bg-zinc-100 dark:bg-zinc-900 login-shadow'>
           <div className='absolute right-0 top-0'>
-            <NavLink to='/register' className='p-1 flex shadow-none rounded-nonefont-light dark:text-white dark:hover:underline text-black hover:underline'>
+            <NavLink
+              to='/registro'
+              className='flex justify-end self-end m-2 mr-4 hover:underline hover:underline-offset-2'
+            >
               {t('register')}
             </NavLink>
           </div>

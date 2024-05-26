@@ -31,7 +31,7 @@ function useFetch({ url, method = 'GET', body = null, headers = { 'Content-Type'
           description: error.error,
           status: 'error'
         })
-    
+        
         if (error.status === 401) {
           auth.logout()
         }

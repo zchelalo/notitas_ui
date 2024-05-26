@@ -7,22 +7,26 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
+export const crearUsuarioByTokenResponse = (respuesta) => {
+  let tokenDecoded = jwtDecode(respuesta.token)
+  // const expDate = new Date(tokenDecoded.exp * 1000)
+
+  const usuario = {
+    token: respuesta.token,
+    id: tokenDecoded.sub,
+    rol: tokenDecoded.rol,
+    nombre: respuesta.nombre
+  }
+
+  return usuario
+}
+
 export const obtenerUsuarioDesdeStorage = () => {
   const usuario = localStorage.getItem('usuario')
   return usuario ? JSON.parse(usuario) : null
 }
 
-export const guardarUsuarioEnStorage = (response) => {
-  let tokenDecoded = jwtDecode(response.token)
-  // const expDate = new Date(tokenDecoded.exp * 1000)
-
-  const usuario = {
-    token: response.token,
-    id: tokenDecoded.sub,
-    rol: tokenDecoded.rol,
-    nombre: response.nombre
-  }
-
+export const guardarUsuarioEnStorage = (usuario) => {
   localStorage.setItem('usuario', JSON.stringify(usuario))
 }
 
@@ -58,7 +62,8 @@ export const fetchData = async ({
           const refreshData = await refreshResponse.json()
 
           // Guardar el nuevo token en local storage
-          guardarUsuarioEnStorage(refreshData)
+          const usuario = crearUsuarioByTokenResponse(refreshData)
+          guardarUsuarioEnStorage(usuario)
 
           // Guardar el nuevo token en los encabezados
           headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
@@ -71,6 +76,11 @@ export const fetchData = async ({
           })
 
           if (!retryResponse.ok) {
+            if (isValidJSON(retryResponse)) {
+              const retryResponseJson = await retryResponse.json()
+              throw { status: retryResponse.status, error: retryResponseJson.message ? retryResponseJson.message : retryResponse.error }
+            }
+    
             throw { status: retryResponse.status, error: retryResponse.statusText }
           }
 
@@ -80,6 +90,11 @@ export const fetchData = async ({
           throw { status: refreshResponse.status, error: 'Failed to refresh token' }
         }
       } else {
+        if (isValidJSON(response)) {
+          const responseJson = await response.json()
+          throw { status: response.status, error: responseJson.message ? responseJson.message : response.error }
+        }
+
         throw { status: response.status, error: response.statusText }
       }
     }
@@ -88,5 +103,14 @@ export const fetchData = async ({
     return data
   } catch (error) {
     throw error
+  }
+}
+
+function isValidJSON(value) {
+  try {
+      JSON.stringify(value)
+      return true
+  } catch (error) {
+      return false
   }
 }

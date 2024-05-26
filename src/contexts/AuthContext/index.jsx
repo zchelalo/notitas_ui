@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useToast } from '@/components/ui/use-toast'
 import { useTranslation } from 'react-i18next'
 
-import { obtenerUsuarioDesdeStorage, guardarUsuarioEnStorage } from '@/lib/utils'
+import { crearUsuarioByTokenResponse, obtenerUsuarioDesdeStorage, guardarUsuarioEnStorage } from '@/lib/utils'
 import { fetchData } from '@/lib/utils'
-import { back_url } from '@/config/const'
 
 const AuthContext = createContext()
 
@@ -43,10 +42,46 @@ function AuthProvider({ children }) {
         })
       })
 
-      guardarUsuarioEnStorage(response)      
-      setUsuario(response)
+      const usuario = crearUsuarioByTokenResponse(response)
+      guardarUsuarioEnStorage(usuario)      
+      setUsuario(usuario)
       navigate('/')
     } catch (error) {
+      if (error.status === 401) {
+        await logout()
+      }
+
+      toast({
+        title: 'Error',
+        description: error.error,
+        status: 'error'
+      })
+    }
+  }
+
+  const register = async (nombre, correo, password) => {
+    try {
+      const response = await fetchData({
+        url: `/notitas_auth/api/v1/auth/registro`,
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+          nombre,
+          correo,
+          password
+        })
+      })
+
+      const usuario = crearUsuarioByTokenResponse(response)
+      guardarUsuarioEnStorage(usuario)
+      setUsuario(usuario)
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+      if (error.status === 401) {
+        await logout()
+      }
+
       toast({
         title: 'Error',
         description: error.error,
@@ -57,19 +92,14 @@ function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const response = await fetch(`${back_url}/notitas_auth/api/v1/auth/logout`, {
+      const response = await fetchData({
+        url: '/notitas_auth/api/v1/auth/logout',
         method: 'POST',
         credentials: 'include'
       })
 
-      if (!response.ok) {
-        throw { status: response.status, error: response.statusText }
-      }
-
-      const data = await response.json()
-
       toast({
-        title: data.message
+        title: response.message
       })
 
       localStorage.removeItem('usuario')
@@ -83,7 +113,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  const auth = { usuario, usuarioVerificado, login, logout }
+  const auth = { usuario, usuarioVerificado, login, register, logout }
 
   return (
     <AuthContext.Provider value={auth}>
