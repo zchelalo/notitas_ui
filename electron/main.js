@@ -21,9 +21,9 @@ const createWindow = () => {
       : `file://${path.join(__dirname, 'dist', 'index.html')}`
   )
   //En el entorno de desarrollo, utilizamos win.webContents.openDevTools() para abrir las herramientas de desarrollo de Chrome para la ventana. Esto es útil para depurar y desarrollar nuestra aplicación.
-  if (isDev) {
-    win.webContents.openDevTools()
-  }
+  // if (isDev) {
+  //   win.webContents.openDevTools()
+  // }
 }
 
 //app.whenReady() se ejecuta cuando la aplicación de Electron está lista para crear ventanas de navegador.
