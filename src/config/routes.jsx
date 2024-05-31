@@ -5,12 +5,17 @@ import { RoleRestrictedRoute } from '@/contexts/AuthContext/RoleRestrictedRoute'
 import { Home } from '@/pages/Home'
 import { Landing } from '@/pages/Landing'
 import { Error404 } from '@/pages/Error404'
+
 import { Login } from '@/pages/Login'
 import { Registro } from '@/pages/Registro'
+
 import { EditarPerfil } from '@/pages/EditarPerfil'
 import { NotitasPrivadas } from '@/pages/NotitasPrivadas'
+
 import { MisGrupos } from '@/pages/MisGrupos'
 import { CrearGrupo } from '@/pages/CrearGrupo'
+import { Grupo } from '@/pages/Grupo'
+
 import { ConfGeneral } from '@/pages/ConfGeneral'
 import { ConfPrivacidad } from '@/pages/ConfPrivacidad'
 
@@ -145,6 +150,21 @@ function Rutas() {
             <AuthRoute>
               <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
                 <MisGrupos />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'Mis grupos',
+          icon: <HiOutlineUserGroup />
+        },
+        {
+          path: 'grupos/mis-grupos/:grupo_id',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <Grupo />
               </RoleRestrictedRoute>
             </AuthRoute>
           ),
