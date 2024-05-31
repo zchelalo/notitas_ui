@@ -11,14 +11,6 @@ import { Rutas } from '@/config/routes.jsx'
 import { Toaster } from '@/components/ui/toaster'
 import { Layout } from '@/components/Layout'
 
-import {
-  HiOutlineUserGroup,
-  HiOutlineCog6Tooth,
-  HiOutlineLockClosed,
-  HiOutlineArrowRightOnRectangle,
-  HiOutlinePlusCircle
-} from 'react-icons/hi2'
-
 import logo from '@/assets/img/logo.png'
 
 function App() {

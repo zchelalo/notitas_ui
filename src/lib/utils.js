@@ -85,7 +85,7 @@ export const fetchData = async ({
               if (retryResponseJson.detail?.message) error = retryResponseJson.detail.message
               if (retryResponseJson.detail?.error) error = retryResponseJson.detail.error
 
-              throw { status: retryResponse.status, error: error ? error : retryResponse.error }
+              throw { status: retryResponse.status, error: error ? error : retryResponse.statusText }
             }
     
             throw { status: retryResponse.status, error: retryResponse.statusText }
@@ -106,7 +106,7 @@ export const fetchData = async ({
           if (responseJson.detail?.message) error = responseJson.detail.message
           if (responseJson.detail?.error) error = responseJson.detail.error
 
-          throw { status: response.status, error: error ? error : response.error }
+          throw { status: response.status, error: error ? error : response.statusText }
         }
 
         throw { status: response.status, error: response.statusText }

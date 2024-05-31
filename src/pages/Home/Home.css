@@ -1,0 +1,8 @@
+.home-notita {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.home-notita:hover {
+  transform: scale(1.02);
+}

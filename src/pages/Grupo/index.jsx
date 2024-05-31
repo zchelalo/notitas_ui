@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/hover-card'
 
 import {
-  HiOutlinePlusSmall,
+  HiOutlinePlus,
   HiOutlineBarsArrowDown,
   HiOutlineAdjustmentsVertical,
   HiOutlineUserPlus,
@@ -138,7 +138,7 @@ function Grupo() {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger className='h-auto w-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-1 rounded cursor-pointer'>
-                          <HiOutlinePlusSmall className='text-xl' />
+                        <HiOutlinePlus className='text-xl' />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Agregar notita</p>

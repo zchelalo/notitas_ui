@@ -170,9 +170,7 @@ function Rutas() {
           ),
           private: true,
           public_only: false,
-          allowed_roles: ['admin', 'cliente'],
-          name: 'Mis grupos',
-          icon: <HiOutlineUserGroup />
+          allowed_roles: ['admin', 'cliente']
         },
         {
           path: 'grupos/crear-grupo',
