@@ -15,5 +15,7 @@
   "name_title": "Full name",
   "name_placeholder": "Enter your full name",
   "confirm_password_title": "Confirm your password",
-  "password_match_validation": "Passwords do not match"
+  "password_match_validation": "Passwords do not match",
+  "title_notitas" : "My Notitas"
+
 }
