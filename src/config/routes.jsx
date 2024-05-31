@@ -9,6 +9,10 @@ import { Login } from '@/pages/Login'
 import { Registro } from '@/pages/Registro'
 import { EditarPerfil } from '@/pages/EditarPerfil'
 import { NotitasPrivadas } from '@/pages/NotitasPrivadas'
+import { MisGrupos } from '@/pages/MisGrupos'
+import { CrearGrupo } from '@/pages/CrearGrupo'
+import { ConfGeneral } from '@/pages/ConfGeneral'
+import { ConfPrivacidad } from '@/pages/ConfPrivacidad'
 
 import {
   HiOutlineUserCircle,
@@ -16,10 +20,11 @@ import {
   HiOutlineCog6Tooth,
   HiOutlinePencilSquare,
   HiOutlineLockClosed,
-  HiOutlineArrowRightOnRectangle,
+  HiOutlineInformationCircle,
   HiOutlinePlusCircle,
   HiOutlineArrowRightEndOnRectangle,
-  HiOutlineHomeModern
+  HiOutlineHomeModern,
+  HiOutlinePencil
 } from 'react-icons/hi2'
 
 function Rutas() {
@@ -28,7 +33,9 @@ function Rutas() {
       path: '/',
       element: (
         <AuthRoute>
-          <Home />
+          <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+            <Home />
+          </RoleRestrictedRoute>
         </AuthRoute>
       ),
       private: true,
@@ -93,6 +100,21 @@ function Rutas() {
           icon: <HiOutlinePencilSquare />
         },
         {
+          path: '/',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <Home />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'Mis notitas',
+          icon: <HiOutlinePencil />
+        },
+        {
           path: 'perfil/notitas-privadas',
           element: (
             <AuthRoute>
@@ -105,6 +127,86 @@ function Rutas() {
           public_only: false,
           allowed_roles: ['admin', 'cliente'],
           name: 'Mis notitas privadas',
+          icon: <HiOutlineLockClosed />
+        }
+      ]
+    },
+    {
+      path: '',
+      private: true,
+      public_only: false,
+      allowed_roles: ['admin', 'cliente'],
+      name: 'Grupos',
+      icon: <HiOutlineUserGroup />,
+      nestedRoutes: [
+        {
+          path: 'grupos/mis-grupos',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <MisGrupos />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'Mis grupos',
+          icon: <HiOutlineUserGroup />
+        },
+        {
+          path: 'grupos/crear-grupo',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <CrearGrupo />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'Crear grupo',
+          icon: <HiOutlinePlusCircle />
+        }
+      ]
+    },
+    {
+      path: '',
+      private: true,
+      public_only: false,
+      allowed_roles: ['admin', 'cliente'],
+      name: 'Configuración',
+      icon: <HiOutlineCog6Tooth />,
+      nestedRoutes: [
+        {
+          path: 'configuracion/general',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <ConfGeneral />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'General',
+          icon: <HiOutlineInformationCircle />
+        },
+        {
+          path: 'configuracion/privacidad',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+                <ConfPrivacidad />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente'],
+          name: 'Privacidad',
           icon: <HiOutlineLockClosed />
         }
       ]

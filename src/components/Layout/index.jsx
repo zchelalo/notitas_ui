@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
 
 import { Button } from '@/components/ui/button'
@@ -31,6 +32,7 @@ function Layout({
   children
 }) {
   const auth = useAuth()
+  const location = useLocation()
 
   const [expandedItem, setExpandedItem] = useState(null)
   const [subMenuPosition, setSubMenuPosition] = useState({ top: 0, left: 0 })
@@ -94,6 +96,10 @@ function Layout({
       document.body
     )
   }
+
+  useEffect(() => {
+    setExpandedItem(null)
+  }, [location])
 
   return (
     <div className='min-h-screen w-full relative bg-zinc-100 dark:bg-zinc-900'>

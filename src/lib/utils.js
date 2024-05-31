@@ -78,7 +78,14 @@ export const fetchData = async ({
           if (!retryResponse.ok) {
             if (isValidJSON(retryResponse)) {
               const retryResponseJson = await retryResponse.json()
-              throw { status: retryResponse.status, error: retryResponseJson.message ? retryResponseJson.message : retryResponse.error }
+
+              let error = undefined
+              if (retryResponseJson.message) error = retryResponseJson.message
+              if (retryResponseJson.error) error = retryResponseJson.error
+              if (retryResponseJson.detail?.message) error = retryResponseJson.detail.message
+              if (retryResponseJson.detail?.error) error = retryResponseJson.detail.error
+
+              throw { status: retryResponse.status, error: error ? error : retryResponse.error }
             }
     
             throw { status: retryResponse.status, error: retryResponse.statusText }
@@ -92,7 +99,14 @@ export const fetchData = async ({
       } else {
         if (isValidJSON(response)) {
           const responseJson = await response.json()
-          throw { status: response.status, error: responseJson.message ? responseJson.message : response.error }
+
+          let error = undefined
+          if (responseJson.message) error = responseJson.message
+          if (responseJson.error) error = responseJson.error
+          if (responseJson.detail?.message) error = responseJson.detail.message
+          if (responseJson.detail?.error) error = responseJson.detail.error
+
+          throw { status: response.status, error: error ? error : response.error }
         }
 
         throw { status: response.status, error: response.statusText }

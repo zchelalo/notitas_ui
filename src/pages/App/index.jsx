@@ -21,53 +21,6 @@ import {
 
 import logo from '@/assets/img/logo.png'
 
-const items2 = [
-  {
-    nombre: 'Grupos',
-    icono: <HiOutlineUserGroup  />,
-    // ruta: '#',
-    subitems: [
-      {
-        nombre: 'Mis grupos',
-        icono: <HiOutlineUserGroup />,
-        ruta: '#'
-      },
-      {
-        nombre: 'Crear grupo',
-        icono: <HiOutlinePlusCircle />,
-        ruta: '#'
-      }
-    ]
-  },
-  {
-    nombre: 'Configuración',
-    icono: <HiOutlineCog6Tooth />,
-    // ruta: '#',
-    subitems: [
-      {
-        nombre: 'General',
-        icono: <HiOutlineCog6Tooth />,
-        ruta: '#'
-      },
-      {
-        nombre: 'Privacidad',
-        icono: <HiOutlineLockClosed />,
-        ruta: '#'
-      },
-      {
-        nombre: 'Cerrar sesión',
-        icono: <HiOutlineArrowRightOnRectangle />,
-        ruta: '#'
-      }
-    ]
-  },
-  {
-    nombre: 'Test',
-    icono: <HiOutlineArrowRightOnRectangle />,
-    ruta: '#'
-  }
-]
-
 function App() {
   const routes = Rutas()
   const auth = useAuth()

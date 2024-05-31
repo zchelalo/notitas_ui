@@ -1,0 +1,8 @@
+.misGrupos-card {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.misGrupos-card:hover {
+  transform: scale(1.02);
+}
