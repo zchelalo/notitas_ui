@@ -44,7 +44,7 @@ function Home() {
     >
       <div className='py-3 flex flex-row items-center justify-between'>
         <div className='flex items-center'>
-          <h1 className='mb-3 text-3xl text-black dark:text-white'>{t('title_notitas')}</h1>
+          <h1 className='mb-3 text-3xl text-black dark:text-white font-bold'>{t('title_notitas')}</h1>
           <Button className='m-2 justify-center bg-white hover:bg-zinc-300 dark:bg-zinc-400 dark:hover:bg-zinc-200'>
             <HiMiniPlus className='text-black' />
           </Button>
