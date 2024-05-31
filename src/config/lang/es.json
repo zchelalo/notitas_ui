@@ -15,5 +15,6 @@
   "name_title": "Nombre completo",
   "name_placeholder": "Ingresa tu nombre completo",
   "confirm_password_title": "Confirmar contraseña",
-  "password_match_validation": "Las contraseñas no coinciden"
+  "password_match_validation": "Las contraseñas no coinciden",
+  "title_notitas" : "Mis Notitas"
 }
