@@ -39,7 +39,8 @@ export const fetchData = async ({
   method = 'GET',
   body = null,
   headers = { 'Content-Type': 'application/json' },
-  credentials
+  credentials,
+  setUsuario
 }) => {
   try {
     const response = await fetch(`${back_url}${url}`, {
@@ -64,6 +65,7 @@ export const fetchData = async ({
           // Guardar el nuevo token en local storage
           const usuario = crearUsuarioByTokenResponse(refreshData)
           guardarUsuarioEnStorage(usuario)
+          setUsuario(usuario)
 
           // Guardar el nuevo token en los encabezados
           headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }

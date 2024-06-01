@@ -113,7 +113,7 @@ function AuthProvider({ children }) {
     }
   }
 
-  const auth = { usuario, usuarioVerificado, login, register, logout }
+  const auth = { usuario, setUsuario, usuarioVerificado, login, register, logout }
 
   return (
     <AuthContext.Provider value={auth}>

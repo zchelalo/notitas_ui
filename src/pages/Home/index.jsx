@@ -25,7 +25,7 @@ function Home() {
   const { usuario } = useAuth()
   const { t } = useTranslation()
 
-  const { data: notas, loading, error } = useFetch({
+  const { data: notitas, loadingNotitas, errorNotitas } = useFetch({
     url: '/notitas_back/api/v1/notitas/usuarios',
     headers: {
       'Content-Type': 'application/json',
@@ -34,14 +34,14 @@ function Home() {
   })
 
   const [openModal, setOpenModal] = useState(false)
-  const [notita, setNotita] = useState({})
+  const [nota, setNota] = useState({})
 
   return (
     <div className='p-6'>
       {openModal ? (
         <Modal>
           <CrearNotita
-            notita={notita}
+            notita={nota}
             setOpenModal={setOpenModal}
             t={t}
           />
@@ -88,17 +88,18 @@ function Home() {
           </TooltipProvider>
         </div>
       </div>
-      {loading ? <p>Cargando...</p> : undefined}
-      {(!loading && error) ? <p>Error: {error}</p> : undefined}
-      {(!loading && !error && notas.length > 0) ? (
+      {loadingNotitas ? <p>Cargando...</p> : undefined}
+      {(!loadingNotitas && errorNotitas) ? <p>Error: {errorNotitas}</p> : undefined}
+      {(!loadingNotitas && !errorNotitas && notitas?.length > 0) ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3, 1200: 4 }}>
           <Masonry gutter='1rem'>
-            {notas?.map(notita => (
+            {notitas?.map(notita => (
               <div
                 key={notita.id}
-                className={`w-full max-h-[30vh] block border-2 ${notita.color ? notita.color : 'border-zinc-900'} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
+                className={`w-full max-h-[30vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
+                style={notita.color ? { borderColor: notita.color } : undefined}
                 onClick={() => {
-                  setNotita(notita)
+                  setNota(notita)
                   setOpenModal(true)
                 }}
               >

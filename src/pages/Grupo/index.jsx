@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useFetch } from '@/hooks/useFetch'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
@@ -13,6 +14,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import { Modal } from '@/components/Modal'
 
 import {
   HiOutlinePlus,
@@ -45,6 +48,15 @@ function Grupo() {
       'Authorization': `Bearer ${usuario.token}`
     }
   })
+  const { data: notitas, loadingNotitas, errorNotitas } = useFetch({
+    url: `/notitas_back/api/v1/notitas/grupos/${grupo_id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${usuario.token}`
+    }
+  })
+  const [openModal, setOpenModal] = useState(false)
+  const [notita, setNotita] = useState({})
 
   const infoMiembroUsuario = miembros?.find(miembro => miembro.usuario_id === usuario.id)
   const rolesAdministrativos = ['propietario', 'administrador']
@@ -52,6 +64,17 @@ function Grupo() {
 
   return (
     <div className='w-full'>
+      {openModal ? (
+        <Modal>
+          {/* <CrearNotita
+            notita={notita}
+            setOpenModal={setOpenModal}
+            t={t}
+          /> */}
+          a
+        </Modal>
+      ) : undefined}
+
       {loadingGrupo ? <p>Cargando...</p> : undefined}
       {(!loadingGrupo && errorGrupo) ? <p>Error: {error.message}</p> : undefined}
       {(
@@ -175,8 +198,32 @@ function Grupo() {
 
           </figure>
           
-          <div className='p-4'>
-            NOTAS
+          <div className='p-6 w-full'>
+          {(!loadingNotitas && !errorNotitas && notitas?.length > 0) ? (
+            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3, 1200: 4 }}>
+              <Masonry gutter='1rem'>
+                {notitas?.map(notita => (
+                  <div
+                    key={notita.id}
+                    className={`w-full max-h-[30vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
+                    style={notita.color ? { borderColor: notita.color } : undefined}
+                    onClick={() => {
+                      setNotita(notita)
+                      setOpenModal(true)
+                    }}
+                  >
+                    <h2 className='text-xl'>{notita.titulo}</h2>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: notita.nota }}
+                      className='overflow-hidden'
+                    ></div>
+                  </div>
+                ))}
+              </Masonry>
+            </ResponsiveMasonry>
+          ) : (
+            <div>No hay notas</div>
+          )}
           </div>
         </div>
       ) : undefined}

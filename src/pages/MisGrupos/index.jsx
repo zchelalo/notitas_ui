@@ -1,11 +1,14 @@
 import { useFetch } from '@/hooks/useFetch'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
-
 import { NavLink, useLocation } from 'react-router-dom'
+
+import { primeraMayuscula } from '@/lib/utils'
+
 import {
   Card,
   CardDescription,
   CardHeader,
+  CardFooter,
   CardTitle,
 } from '@/components/ui/card'
 
@@ -18,7 +21,7 @@ function MisGrupos() {
   const location = useLocation()
 
   const { data: grupos, loading, error } = useFetch({
-    url: '/notitas_back/api/v1/grupos',
+    url: '/notitas_back/api/v1/miembros_grupo',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${usuario.token}`
@@ -33,23 +36,28 @@ function MisGrupos() {
       {(!loading && !error && grupos?.length > 0) ? (
         grupos.map(grupo => (
           <NavLink
-            key={grupo.id}
-            to={location.pathname + '/' + grupo.id}
+            key={grupo.grupo_id}
+            to={location.pathname + '/' + grupo.grupo_id}
           >
             <Card className='misGrupos-card h-full flex flex-col'>
-              <CardHeader>
+              <CardHeader className='pb-0'>
                 <CardTitle>
                   <figure className='w-full flex justify-start items-center'>
                     <img
                       className='rounded-full w-16 h-16 object-cover mr-2'
-                      src={grupo.profile_pic ? grupo.imagen : imgGrupoDefecto}
-                      alt={grupo.nombre}
+                      src={grupo.grupo_profile_pic ? grupo.grupo_profile_pic : imgGrupoDefecto}
+                      alt={grupo.grupo_nombre}
                     />
-                    <figcaption>{grupo.nombre}</figcaption>
+                    <figcaption>{grupo.grupo_nombre}</figcaption>
                   </figure>
                 </CardTitle>
-                <CardDescription>{grupo.descripcion}</CardDescription>
+                <CardDescription>{grupo.grupo_descripcion}</CardDescription>
               </CardHeader>
+              <CardFooter className='pb-2 pt-3 flex justify-end'>
+                <small className='text-muted-foreground'>
+                  {primeraMayuscula(grupo.rol_grupo_clave)}
+                </small>
+              </CardFooter>
             </Card>
           </NavLink>
         ))

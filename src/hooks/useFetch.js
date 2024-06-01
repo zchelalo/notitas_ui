@@ -20,7 +20,8 @@ function useFetch({ url, method = 'GET', body = null, headers = { 'Content-Type'
           url: url,
           method: method,
           headers: headers,
-          body: body
+          body: body,
+          setUsuario: auth.setUsuario
         })
 
         setData(response)
