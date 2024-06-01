@@ -1,7 +1,9 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import { useForm } from 'react-hook-form'
+import ReactQuill from 'react-quill'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -14,20 +16,29 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-function CrearNotita({
-  notita,
-  setOpenModal,
-  t
-}) {
+import {
+  HiOutlineMicrophone,
+  HiOutlineBell,
+  HiOutlineChevronLeft,
+} from 'react-icons/hi2'
+import { HiOutlineLockOpen } from 'react-icons/hi'
+import { IoColorPaletteOutline } from 'react-icons/io5'
+
+import 'react-quill/dist/quill.snow.css'
+
+function CrearNotita({ notita, setOpenModal, t }) {
   const formSchema = z.object({
-    titulo: z.string().min(1, {
-      message: t('titulo_min')
-    }).max(255, {
-      message: t('titulo_max')
-    }),
+    titulo: z
+      .string()
+      .min(1, {
+        message: t('titulo_min'),
+      })
+      .max(255, {
+        message: t('titulo_max'),
+      }),
     nota: z.string(),
     color: z.string(),
-    privada: z.boolean(),
+    privada: z.boolean()
   })
 
   const form = useForm({
@@ -39,10 +50,35 @@ function CrearNotita({
       privada: notita.privada
     },
   })
+  
+  const [valor, setValor] = useState('')
 
-  const onSubmit = async form => {
+  const onSubmit = async (form) => {
     console.log(form)
+    console.log(valor)
     setOpenModal(false)
+  }
+
+
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video', 'formula'],
+    [{ header: 1 }, { header: 2 }],
+    [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+    [{ script: 'sub' }, { script: 'super' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ direction: 'rtl' }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ color: [] }, { background: [] }],
+    [{ font: [] }],
+    [{ align: [] }],
+    ['clean'],
+  ]
+
+  const Herramientas = {
+    toolbar: toolbarOptions,
   }
 
   return (
@@ -62,7 +98,7 @@ function CrearNotita({
                   type='submit'
                   className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
                 >
-                  {'<'}
+                  <HiOutlineChevronLeft />
                 </Button>
               </div>
               <div className='flex'>
@@ -70,25 +106,25 @@ function CrearNotita({
                   type='submit'
                   className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
                 >
-                  {'<'}
+                  <HiOutlineMicrophone />
                 </Button>
                 <Button
                   type='submit'
                   className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
                 >
-                  {'<'}
+                  <IoColorPaletteOutline />
                 </Button>
                 <Button
                   type='submit'
                   className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
                 >
-                  {'<'}
+                  <HiOutlineLockOpen />
                 </Button>
                 <Button
                   type='submit'
                   className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
                 >
-                  {'<'}
+                  <HiOutlineBell />
                 </Button>
               </div>
             </div>
@@ -107,8 +143,14 @@ function CrearNotita({
                 </FormItem>
               )}
             />
-            <div className='w-full h-full'>
-              asijhdfsaojdjoa
+            <div className='w-full h-full overflow-hidden'>
+              <ReactQuill
+                value={valor}
+                onChange={setValor}
+                theme='snow'
+                modules={Herramientas}
+                className='w-full h-full'
+              />
             </div>
           </div>
         </form>
