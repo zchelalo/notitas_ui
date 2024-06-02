@@ -8,13 +8,18 @@ import { useForm } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem
+} from '@/components/ui/form'
 
 import {
   HiOutlineMicrophone,
   HiOutlineBell,
   HiOutlineChevronLeft,
-  HiOutlineLockOpen,
+  HiOutlineLockOpen
 } from 'react-icons/hi2'
 import { IoColorPaletteOutline } from 'react-icons/io5'
 
@@ -23,8 +28,8 @@ import './Home.css'
 
 function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const [nota, setNota] = useState(notita.nota)
-  const [color, setColor] = useState('#aabbcc')
-  const [estado, setEstado] = useState(false)
+  const [color, setColor] = useState(notita.color)
+  const [colorPickerOpen, setColorPickerOpen] = useState(false)
   const [audio, setAudio] = useState(null)
 
   const formSchema = z.object({
@@ -97,12 +102,22 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
               >
                 <HiOutlineMicrophone />
               </Button>
-              <Button
-                type='button'
-                className='p-2 btn-icon mr-1'
-              >
-                <IoColorPaletteOutline />
-              </Button>
+              <div className='relative'>
+                <Button
+                  type='button'
+                  onClick={() => setColorPickerOpen(!colorPickerOpen)}
+                  className='p-2 btn-icon mr-1'
+                >
+                  <IoColorPaletteOutline />
+                </Button>
+                {colorPickerOpen &&  
+                  <RgbaStringColorPicker
+                    color={color}
+                    onChange={setColor} 
+                    className='absolute z-10 right-0 mr-1 mt-2'
+                  />
+                }
+              </div>
               <Button
                 type='button'
                 className='btn-icon mr-1 p-2'
@@ -126,7 +141,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
                 <FormControl>
                   <Input
                     className='bg-transparent rounded-none px-3 py-6 text-xl border-none focus-visible:ring-0 text-muted-foreground focus-visible:text-zinc-900'
-                    placeholder='La forma del verbo '
+                    placeholder='La forma del verbo "to be"'
                     {...field}
                   />
                 </FormControl>
