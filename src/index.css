@@ -74,3 +74,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.btn {
+  @apply bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 !important;
+}
+
+.btn-icon {
+  @apply w-auto h-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 !important;
+}

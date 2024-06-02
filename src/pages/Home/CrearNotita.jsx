@@ -25,6 +25,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const [nota, setNota] = useState(notita.nota)
   const [color, setColor] = useState('#aabbcc')
   const [estado, setEstado] = useState(false)
+  const [audio, setAudio] = useState(null)
 
   const formSchema = z.object({
     titulo: z
@@ -60,7 +61,8 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
     ['blockquote', 'code-block'],
-    ['link', 'image', 'video', 'formula'],
+    // ['link', 'image', 'video', 'formula'],
+    ['link', 'image', 'video'],
     [{ header: 1 }, { header: 2 }],
     [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
     [{ script: 'sub' }, { script: 'super' }],
@@ -74,10 +76,6 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
     ['clean'],
   ]
 
-  const Herramientas = {
-    toolbar: toolbarOptions,
-  }
-  
   return (
     <div className='w-full h-full flex justify-center items-center ml-10 md:ml-12'>
       <Form {...form}>
@@ -88,42 +86,32 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
           <div className='p-3 flex justify-between Reactcolorfull'>
             <Button
               type='submit'
-              className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
+              className='btn-icon p-2'
             >
               <HiOutlineChevronLeft />
             </Button>
             <div className='flex'>
               <Button
                 type='button'
-                className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
+                className='btn-icon mr-1 p-2'
               >
                 <HiOutlineMicrophone />
               </Button>
-              <div className='relative'>
-                <Button
-                  type='button'
-                  onClick={() => setEstado(!estado)}
-                  className='relative w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
-                >
-                  <IoColorPaletteOutline />
-                </Button>
-                {estado &&  
-                  <RgbaStringColorPicker
-                    color={color}
-                    onChange={setColor} 
-                    className='absolute z-50 right-0 mr-1 mt-2'
-                  />
-                }
-              </div>
               <Button
                 type='button'
-                className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
+                className='p-2 btn-icon mr-1'
+              >
+                <IoColorPaletteOutline />
+              </Button>
+              <Button
+                type='button'
+                className='btn-icon mr-1 p-2'
               >
                 <HiOutlineLockOpen />
               </Button>
               <Button
                 type='button'
-                className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
+                className='btn-icon p-2'
               >
                 <HiOutlineBell />
               </Button>
@@ -149,7 +137,9 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
             value={nota}
             onChange={setNota}
             theme='snow'
-            modules={Herramientas}
+            modules={{
+              toolbar: toolbarOptions
+            }}
             className='flex flex-col overflow-hidden w-full h-full'
           />
         </form>

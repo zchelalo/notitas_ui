@@ -142,7 +142,7 @@ function Registro() {
                       <FormLabel className=''>{t('confirm_password_title')}</FormLabel>
                       <FormControl>
                         <Input
-                          className='border  dark:border-zinc-300 dark:bg-zinc-500 bg-white rounded'
+                          className='border dark:border-zinc-300 dark:bg-zinc-500 bg-white rounded'
                           placeholder='password'
                           type='password'
                           {...field}
@@ -152,7 +152,7 @@ function Registro() {
                     </FormItem>
                   )}
                 />
-                <Button className='mt-6 w-full h-12 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'>
+                <Button className='mt-6 w-full h-12 btn'>
                   {t('continue')}
                 </Button>
               </form>

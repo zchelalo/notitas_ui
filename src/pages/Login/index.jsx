@@ -109,7 +109,7 @@ function Login() {
                     </FormItem>
                   )}
                 />
-                <Button className='mt-6 w-full h-12 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'>
+                <Button className='mt-6 w-full h-12 btn'>
                   {t('continue')}
                 </Button>
               </form>

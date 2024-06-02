@@ -56,7 +56,7 @@ function Home() {
           </h1>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className='h-auto w-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-1 rounded cursor-pointer'>
+              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
                 <HiOutlinePlus className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
@@ -68,7 +68,7 @@ function Home() {
         <div className='w-full sm:w-auto flex items-center justify-end'>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className='h-auto w-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-1 rounded cursor-pointer mr-2'>
+              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer mr-2'>
                 <HiOutlineBarsArrowDown className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
@@ -79,7 +79,7 @@ function Home() {
 
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className='h-auto w-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-1 rounded cursor-pointer'>
+              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
                 <HiOutlineAdjustmentsVertical className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>

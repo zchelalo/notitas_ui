@@ -7,7 +7,7 @@
   transform: scale(1.02);
 }
 
-.ql-toolbar {
+/* .ql-toolbar {
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
@@ -15,7 +15,7 @@
 
 .ql-toolbar .ql-formats {
   display: flex;
-}
+} */
 
 .ql-container {
   overflow-y: auto;

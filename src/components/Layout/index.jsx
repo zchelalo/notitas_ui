@@ -152,20 +152,20 @@ function Layout({
           <footer className={`pb-5 flex ${isOpen ? 'flex-row' : 'flex-col'}`}>
             {auth.usuario ? (
               <Button
-                className='bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-2 rounded cursor-pointer m-1'
+                className='btn p-2 rounded cursor-pointer m-1'
                 onClick={auth.logout}
               >
                 <HiOutlineArrowRightOnRectangle  />
               </Button>
             ) : undefined}
             <Button
-              className='bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-2 rounded cursor-pointer m-1'
+              className='btn p-2 rounded cursor-pointer m-1'
               onClick={() => handleChangeTema(tema === 'light' ? 'dark' : 'light')}
             >
               {tema === 'light' ? <HiOutlineSun /> : <HiOutlineMoon />}
             </Button>
             <Button
-              className='bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-2 rounded cursor-pointer m-1'
+              className='btn p-2 rounded cursor-pointer m-1'
               onClick={() => handleChangeIdioma(idioma === 'es' ? 'en' : 'es')}
             >
               <HiOutlineLanguage />
@@ -183,7 +183,7 @@ function Layout({
           setIsOpen(!isOpen)
           setExpandedItem(null)
         }}
-        className='w-16 h-16 fixed z-10 bottom-0 right-0 m-3 md:m-6 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 rounded-full p-3 text-4xl'
+        className='w-16 h-16 fixed z-10 bottom-0 right-0 m-3 md:m-6 btn rounded-full p-3 text-4xl'
       >
         <HiOutlineBars3 />
       </Button>
