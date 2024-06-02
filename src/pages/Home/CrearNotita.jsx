@@ -1,24 +1,20 @@
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import ReactQuill from 'react-quill'
+import { RgbaStringColorPicker } from 'react-colorful'
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 
 import {
   HiOutlineMicrophone,
   HiOutlineBell,
   HiOutlineChevronLeft,
-  HiOutlineLockOpen
+  HiOutlineLockOpen,
 } from 'react-icons/hi2'
 import { IoColorPaletteOutline } from 'react-icons/io5'
 
@@ -27,6 +23,8 @@ import './Home.css'
 
 function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const [nota, setNota] = useState(notita.nota)
+  const [color, setColor] = useState('#aabbcc')
+  const [estado, setEstado] = useState(false)
 
   const formSchema = z.object({
     titulo: z
@@ -51,13 +49,13 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
       privada: notita.privada
     },
   })
-  
-  const onSubmit = async form => {
+
+  const onSubmit = async (form) => {
     form.nota = nota
+    form.color = color
     console.log(form)
     setOpenModal(false)
   }
-
 
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -79,7 +77,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const Herramientas = {
     toolbar: toolbarOptions,
   }
-
+  
   return (
     <div className='w-full h-full flex justify-center items-center ml-10 md:ml-12'>
       <Form {...form}>
@@ -87,7 +85,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
           onSubmit={form.handleSubmit(onSubmit)}
           className='w-5/6 h-3/4 flex flex-col md:w-3/4 bg-zinc-100 dark:bg-zinc-900 rounded'
         >
-          <div className='p-3 flex justify-between'>
+          <div className='p-3 flex justify-between Reactcolorfull'>
             <Button
               type='submit'
               className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100'
@@ -101,12 +99,22 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
               >
                 <HiOutlineMicrophone />
               </Button>
-              <Button
-                type='button'
-                className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
-              >
-                <IoColorPaletteOutline />
-              </Button>
+              <div className='relative'>
+                <Button
+                  type='button'
+                  onClick={() => setEstado(!estado)}
+                  className='relative w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
+                >
+                  <IoColorPaletteOutline />
+                </Button>
+                {estado &&  
+                  <RgbaStringColorPicker
+                    color={color}
+                    onChange={setColor} 
+                    className='absolute z-50 right-0 mr-1 mt-2'
+                  />
+                }
+              </div>
               <Button
                 type='button'
                 className='w-auto h-auto p-2 bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-800 dark:text-zinc-100 mr-1'
@@ -121,6 +129,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
               </Button>
             </div>
           </div>
+
           <FormField
             control={form.control}
             name='titulo'
@@ -129,7 +138,7 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
                 <FormControl>
                   <Input
                     className='bg-transparent rounded-none px-3 py-6 text-xl border-none focus-visible:ring-0 text-muted-foreground focus-visible:text-zinc-900'
-                    placeholder='La forma del verbo "to be"'
+                    placeholder='La forma del verbo '
                     {...field}
                   />
                 </FormControl>
