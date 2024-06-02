@@ -5,6 +5,10 @@ import { RgbaStringColorPicker } from 'react-colorful'
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useToast } from '@/components/ui/use-toast'
+import { useAuth } from '@/contexts/AuthContext/useAuth'
+
+import { fetchData } from '@/lib/utils'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -19,17 +23,21 @@ import {
   HiOutlineMicrophone,
   HiOutlineBell,
   HiOutlineChevronLeft,
-  HiOutlineLockOpen
+  HiOutlineLockOpen,
+  HiOutlineLockClosed
 } from 'react-icons/hi2'
 import { IoColorPaletteOutline } from 'react-icons/io5'
 
 import 'react-quill/dist/quill.snow.css'
 import './Home.css'
 
-function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
-  const [nota, setNota] = useState(notita.nota)
+function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
+  const { toast } = useToast()
+  const auth = useAuth()
+
   const [color, setColor] = useState(notita.color ? notita.color : '#000000')
   const [colorPickerOpen, setColorPickerOpen] = useState(false)
+  const [privada, setPrivada] = useState(notita.privada)
   const [audio, setAudio] = useState(null)
 
   const formSchema = z.object({
@@ -56,11 +64,51 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
     },
   })
 
-  const onSubmit = async (form) => {
-    form.nota = nota
-    form.color = color
-    console.log(form)
-    setOpenModal(false)
+  const onSubmit = async form => {
+    try {
+      form.color = color
+
+      if (
+        form.titulo === notita.titulo &&
+        form.nota === notita.nota &&
+        form.color === notita.color &&
+        form.privada === notita.privada
+      ) {
+        return setOpenModal(false)
+      }
+
+      const response = await fetchData({
+        url: `/notitas_back/api/v1/notitas/usuarios/${notita.id}`,
+        method: 'PUT',
+        body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.usuario.token}`
+        },
+        setUsuario: auth.setUsuario
+      })
+
+      setNotitas(prevNotitas => {
+        const index = prevNotitas.findIndex(n => n.id === notita.id)
+        prevNotitas[index] = response
+        return prevNotitas
+      })
+
+      toast({
+        description: t('update_notita_success')
+      })
+    } catch (error) {
+      if (error?.status === 401) {
+        auth.logout()
+      }
+
+      toast({
+        title: 'Error',
+        description: t('update_notita_error')
+      })
+    } finally {
+      setOpenModal(false)
+    }
   }
 
   const toolbarOptions = [
@@ -121,8 +169,13 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
               <Button
                 type='button'
                 className='btn-icon mr-1 p-2'
+                onClick={() => {
+                  const valorPrivada = !form.getValues('privada')
+                  setPrivada(valorPrivada)
+                  form.setValue('privada', valorPrivada)
+                }}
               >
-                <HiOutlineLockOpen />
+                {privada ? <HiOutlineLockClosed /> : <HiOutlineLockOpen />}
               </Button>
               <Button
                 type='button'
@@ -149,8 +202,8 @@ function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
             )}
           />
           <ReactQuill
-            value={nota}
-            onChange={setNota}
+            value={notita.nota}
+            onChange={nota => form.setValue('nota', nota)}
             theme='snow'
             modules={{
               toolbar: toolbarOptions

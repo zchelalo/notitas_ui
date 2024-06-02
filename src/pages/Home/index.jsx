@@ -22,10 +22,10 @@ import { CrearNotita } from '@/pages/Home/CrearNotita'
 import './Home.css'
 
 function Home() {
-  const { usuario, setUsuario } = useAuth()
+  const { usuario } = useAuth()
   const { t } = useTranslation()
 
-  const { data: notitas, loadingNotitas, errorNotitas } = useFetch({
+  const { data: notitas, setData: setNotitas, loadingNotitas, errorNotitas } = useFetch({
     url: '/notitas_back/api/v1/notitas/usuarios',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function Home() {
           <CrearNotita
             notita={nota}
             setOpenModal={setOpenModal}
-            setUsuario={setUsuario}
+            setNotitas={setNotitas}
             t={t}
           />
         </Modal>
