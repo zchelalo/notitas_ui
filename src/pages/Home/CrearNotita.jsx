@@ -28,7 +28,7 @@ import './Home.css'
 
 function CrearNotita({ notita, setOpenModal, setUsuario, t }) {
   const [nota, setNota] = useState(notita.nota)
-  const [color, setColor] = useState(notita.color)
+  const [color, setColor] = useState(notita.color ? notita.color : '#000000')
   const [colorPickerOpen, setColorPickerOpen] = useState(false)
   const [audio, setAudio] = useState(null)
 
