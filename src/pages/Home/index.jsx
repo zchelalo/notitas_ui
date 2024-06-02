@@ -22,7 +22,7 @@ import { CrearNotita } from '@/pages/Home/CrearNotita'
 import './Home.css'
 
 function Home() {
-  const { usuario } = useAuth()
+  const { usuario, setUsuario } = useAuth()
   const { t } = useTranslation()
 
   const { data: notitas, loadingNotitas, errorNotitas } = useFetch({
@@ -43,6 +43,7 @@ function Home() {
           <CrearNotita
             notita={nota}
             setOpenModal={setOpenModal}
+            setUsuario={setUsuario}
             t={t}
           />
         </Modal>
