@@ -36,6 +36,7 @@ function AuthProvider({ children }) {
         url: `/notitas_auth/api/v1/auth/login`,
         method: 'POST',
         credentials: 'include',
+        authRoute: true,
         body: JSON.stringify({
           correo,
           password
@@ -47,10 +48,6 @@ function AuthProvider({ children }) {
       setUsuario(usuario)
       navigate('/')
     } catch (error) {
-      if (error.status === 401) {
-        await logout()
-      }
-
       toast({
         title: 'Error',
         description: error.error,
@@ -65,6 +62,7 @@ function AuthProvider({ children }) {
         url: `/notitas_auth/api/v1/auth/registro`,
         method: 'POST',
         credentials: 'include',
+        authRoute: true,
         body: JSON.stringify({
           nombre,
           correo,
@@ -77,11 +75,6 @@ function AuthProvider({ children }) {
       setUsuario(usuario)
       navigate('/')
     } catch (error) {
-      console.log(error)
-      if (error.status === 401) {
-        await logout()
-      }
-
       toast({
         title: 'Error',
         description: error.error,
@@ -95,7 +88,8 @@ function AuthProvider({ children }) {
       const response = await fetchData({
         url: '/notitas_auth/api/v1/auth/logout',
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        authRoute: true
       })
 
       toast({

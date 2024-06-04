@@ -7,7 +7,7 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
-export const crearUsuarioByTokenResponse = (respuesta) => {
+export const crearUsuarioByTokenResponse = respuesta => {
   let tokenDecoded = jwtDecode(respuesta.token)
   // const expDate = new Date(tokenDecoded.exp * 1000)
 
@@ -40,6 +40,7 @@ export const fetchData = async ({
   body = null,
   headers = { 'Content-Type': 'application/json' },
   credentials,
+  authRoute = false,
   setUsuario
 }) => {
   try {
@@ -51,6 +52,10 @@ export const fetchData = async ({
     })
 
     if (!response.ok) { 
+      if (response.status === 401 && authRoute) {
+        throw await formatResponseError(response)
+      }
+
       if (response.status === 401) { // 401 Unauthorized
         // Intentar renovar el token
         const refreshResponse = await fetch(`${back_url}/notitas_auth/api/v1/auth/refresh`, {
@@ -78,40 +83,16 @@ export const fetchData = async ({
           })
 
           if (!retryResponse.ok) {
-            if (isValidJSON(retryResponse)) {
-              const retryResponseJson = await retryResponse.json()
-
-              let error = undefined
-              if (retryResponseJson.message) error = retryResponseJson.message
-              if (retryResponseJson.error) error = retryResponseJson.error
-              if (retryResponseJson.detail?.message) error = retryResponseJson.detail.message
-              if (retryResponseJson.detail?.error) error = retryResponseJson.detail.error
-
-              throw { status: retryResponse.status, error: error ? error : retryResponse.statusText }
-            }
-    
-            throw { status: retryResponse.status, error: retryResponse.statusText }
+            throw await formatResponseError(retryResponse)
           }
 
           const retryData = await retryResponse.json()
           return retryData
         } else {
-          throw { status: refreshResponse.status, error: 'Failed to refresh token' }
+          throw await formatResponseError(refreshResponse)
         }
       } else {
-        if (isValidJSON(response)) {
-          const responseJson = await response.json()
-
-          let error = undefined
-          if (responseJson.message) error = responseJson.message
-          if (responseJson.error) error = responseJson.error
-          if (responseJson.detail?.message) error = responseJson.detail.message
-          if (responseJson.detail?.error) error = responseJson.detail.error
-
-          throw { status: response.status, error: error ? error : response.statusText }
-        }
-
-        throw { status: response.status, error: response.statusText }
+        throw await formatResponseError(response)
       }
     }
 
@@ -129,4 +110,20 @@ function isValidJSON(value) {
   } catch (error) {
       return false
   }
+}
+
+async function formatResponseError(response) {
+  if (isValidJSON(response)) {
+    const responseJson = await response.json()
+
+    let error = undefined
+    if (responseJson.error) error = responseJson.error
+    if (responseJson.message) error = responseJson.message
+    if (responseJson.detail?.error) error = responseJson.detail.error
+    if (responseJson.detail?.message) error = responseJson.detail.message
+
+    return { status: response.status, error: error ? error : response.statusText }
+  }
+
+  return { status: response.status, error: response.statusText }
 }
