@@ -16,5 +16,10 @@
   "name_placeholder": "Ingresa tu nombre completo",
   "confirm_password_title": "Confirmar contraseña",
   "password_match_validation": "Las contraseñas no coinciden",
-  "title_notitas" : "Mis Notitas"
-}
+  "title_notitas" : "Mis Notitas",
+  "add_notita": "Agregar notita",
+  "order_by_date": "Ordenar por fecha",
+  "filter_by": "Filtrar por",
+  "titulo_min_validation": "El título debe tener al menos 3 caracteres",
+  "titulo_max_validation": "El título debe tener menos de 255 caracteres"
+} 

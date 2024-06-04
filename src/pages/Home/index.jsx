@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/tooltip'
 import { Modal } from '@/components/Modal'
 import { CrearNotita } from '@/pages/Home/CrearNotita'
+import { Loading } from '@/pages/Home/Loading'
 
 import {
   HiOutlinePlus,
@@ -25,7 +26,7 @@ function Home() {
   const { usuario } = useAuth()
   const { t } = useTranslation()
 
-  const { data: notitas, setData: setNotitas, loadingNotitas, errorNotitas } = useFetch({
+  const { data: notitas, setData: setNotitas, loading: loadingNotitas, error: errorNotitas } = useFetch({
     url: '/notitas_back/api/v1/notitas/usuarios',
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ function Home() {
                 <HiOutlinePlus className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Agregar notita</p>
+                <p>{t('add_notita')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -72,7 +73,7 @@ function Home() {
                 <HiOutlineBarsArrowDown className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Ordenar por fecha</p>
+                <p>{t('order_by_date')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -83,13 +84,13 @@ function Home() {
                 <HiOutlineAdjustmentsVertical className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Filtrar por</p>
+                <p>{t('filter_by')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
       </div>
-      {loadingNotitas ? <p>Cargando...</p> : undefined}
+      {loadingNotitas ? <Loading /> : undefined}
       {(!loadingNotitas && errorNotitas) ? <p>Error: {errorNotitas}</p> : undefined}
       {(!loadingNotitas && !errorNotitas && notitas?.length > 0) ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3, 1200: 4 }}>
@@ -97,7 +98,7 @@ function Home() {
             {notitas?.map(notita => (
               <div
                 key={notita.id}
-                className={`w-full max-h-[30vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
+                className={`w-full max-h-[40vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
                 style={notita.color ? { borderColor: notita.color } : undefined}
                 onClick={() => {
                   setNota(notita)
@@ -113,8 +114,8 @@ function Home() {
             ))}
           </Masonry>
         </ResponsiveMasonry>
-      ) : (
-        <div>No hay notas</div>
+      ) : loadingNotitas ? undefined : (
+        <div>No hay notitas</div>
       )}
       
     </div>

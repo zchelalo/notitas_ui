@@ -16,6 +16,10 @@
   "name_placeholder": "Enter your full name",
   "confirm_password_title": "Confirm your password",
   "password_match_validation": "Passwords do not match",
-  "title_notitas" : "My Notitas"
-
+  "title_notitas" : "My Notitas",
+  "add_notita": "Add a new notita",
+  "order_by_date": "Order by date",
+  "filter_by": "Filter by",
+  "titulo_min_validation": "Title must be at least 3 characters",
+  "titulo_max_validation": "Title must be at most 255 characters"
 }

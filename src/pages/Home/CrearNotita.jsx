@@ -65,10 +65,10 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
     titulo: z
       .string()
       .min(1, {
-        message: t('titulo_min'),
+        message: t('titulo_min_validation'),
       })
       .max(255, {
-        message: t('titulo_max'),
+        message: t('titulo_max_validation'),
       }),
     nota: z.string(),
     color: z.string(),
@@ -82,19 +82,19 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
       nota: notita.nota,
       color: notita.color,
       privada: notita.privada
-    },
+    }
   })
 
-  const onSubmit = async form => {
+  const onSubmit = async data => {
     try {
-      form.color = color
-      form.nota = nota
+      data.color = color
+      data.nota = nota
 
       if (
-        form.titulo === notita.titulo &&
-        form.nota === notita.nota &&
-        form.color === notita.color &&
-        form.privada === notita.privada
+        data.titulo === notita.titulo &&
+        data.nota === notita.nota &&
+        data.color === notita.color &&
+        data.privada === notita.privada
       ) {
         return setOpenModal(false)
       }
@@ -102,7 +102,7 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
       const response = await fetchData({
         url: `/notitas_back/api/v1/notitas/usuarios/${notita.id}`,
         method: 'PUT',
-        body: JSON.stringify(form),
+        body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${auth.usuario.token}`
@@ -303,7 +303,7 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
                   <RgbaStringColorPicker
                     color={color}
                     onChange={setColor} 
-                    className='absolute z-10 left-1/2 transform -translate-x-1/2 sm:transform-none sm:translate-x-0 sm:left-auto sm:right-0 sm:mr-1 mt-2'
+                    className='absolute z-10 left-[60%] transform -translate-x-[60%] sm:transform-none sm:translate-x-0 sm:left-auto sm:right-0 sm:mr-1 mt-2'
                   />
                 }
               </div>
@@ -360,6 +360,7 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
               </FormItem>
             )}
           />
+
           <ReactQuill
             value={nota}
             onChange={setNota}

@@ -64,36 +64,36 @@ export const fetchData = async ({
           credentials: 'include' // Esto es para incluir las cookies httpOnly en la solicitud
         })
 
-        if (refreshResponse.ok) {
-          const refreshData = await refreshResponse.json()
-
-          // Guardar el nuevo token en local storage
-          const usuario = crearUsuarioByTokenResponse(refreshData)
-          guardarUsuarioEnStorage(usuario)
-          setUsuario(usuario)
-
-          // Guardar el nuevo token en los encabezados
-          headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
-
-          // Reintentar la solicitud original
-          const retryResponse = await fetch(`${back_url}${url}`, {
-            method: method,
-            headers: headers,
-            body: body
-          })
-
-          if (!retryResponse.ok) {
-            throw await formatResponseError(retryResponse)
-          }
-
-          const retryData = await retryResponse.json()
-          return retryData
-        } else {
+        if (!refreshResponse.ok) {
           throw await formatResponseError(refreshResponse)
         }
-      } else {
-        throw await formatResponseError(response)
+
+        const refreshData = await refreshResponse.json()
+
+        // Guardar el nuevo token en local storage
+        const usuario = crearUsuarioByTokenResponse(refreshData)
+        guardarUsuarioEnStorage(usuario)
+        setUsuario(usuario)
+
+        // Guardar el nuevo token en los encabezados
+        headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
+
+        // Reintentar la solicitud original
+        const retryResponse = await fetch(`${back_url}${url}`, {
+          method: method,
+          headers: headers,
+          body: body
+        })
+
+        if (!retryResponse.ok) {
+          throw await formatResponseError(retryResponse)
+        }
+
+        const retryData = await retryResponse.json()
+        return retryData
       }
+
+      throw await formatResponseError(response)
     }
 
     const data = await response.json()
