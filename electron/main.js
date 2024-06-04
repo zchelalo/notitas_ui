@@ -12,6 +12,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    autoHideMenuBar: true
   })
 
 //Utilizamos win.loadURL para cargar la URL de nuestra aplicación. 
