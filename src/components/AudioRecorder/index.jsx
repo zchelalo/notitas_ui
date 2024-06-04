@@ -1,7 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 
-import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 
 import { HiOutlineMicrophone } from 'react-icons/hi2'
 import { BsRecordCircle } from 'react-icons/bs'
@@ -73,20 +78,27 @@ function AudioRecorder({ mediaRecorderRef, setAudioBlob }) {
 
   return (
     <div>
-      <Button
-        type='button'
-        className='btn-icon mr-1 p-2'
-        onClick={() => {
-          if (isRecording) {
-            stopRecording()
-            return
-          }
-
-          startRecording()
-        }}
-      >
-        {isRecording ? <BsRecordCircle /> : <HiOutlineMicrophone />}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger
+            type='button'
+            className='btn-icon mr-1 p-2 text-sm rounded'
+            onClick={() => {
+              if (isRecording) {
+                stopRecording()
+                return
+              }
+    
+              startRecording()
+            }}
+          >
+            {isRecording ? <BsRecordCircle /> : <HiOutlineMicrophone />}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Transcribir audio a texto</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   )
 }

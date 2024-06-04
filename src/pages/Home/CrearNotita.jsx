@@ -16,8 +16,15 @@ import {
   FormField,
   FormItem
 } from '@/components/ui/form'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import ReactQuill from 'react-quill'
 import { RgbaStringColorPicker } from 'react-colorful'
+import { Typewriter } from 'react-simple-typewriter'
 import { AudioRecorder } from '@/components/AudioRecorder'
 import { Modal } from '@/components/Modal'
 
@@ -230,6 +237,7 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
                       type='button'
                       onClick={transcribirAudio}
                       className='w-auto btn p-2 flex items-center'
+                      disabled={transcribirLoading}
                     >
                       <span className='mr-2'>
                         Agregar a la notita
@@ -238,7 +246,15 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
                     </Button>
                     {transcribirLoading ? (
                       <small className='mt-2'>
-                        Transcribiendo
+                        <Typewriter
+                          words={['Transcribiendo']}
+                          loop={true}
+                          cursor
+                          cursorStyle='_'
+                          typeSpeed={90}
+                          deleteSpeed={90}
+                          delaySpeed={1000}
+                        />
                       </small>
                     ) : undefined}
                   </div>
@@ -249,28 +265,40 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
 
           <div className='p-3 flex justify-between color-picker'>
             <div>
-              <Button
-                type='submit'
-                className='btn-icon p-2'
-              >
-                <HiOutlineChevronLeft />
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger 
+                    type='submit'
+                    className='btn-icon p-2 text-sm rounded'
+                  >
+                    <HiOutlineChevronLeft />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Cerrar editor</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className='flex'>
-              <div>
-                <AudioRecorder
-                  mediaRecorderRef={mediaRecorderRef}
-                  setAudioBlob={setAudioBlob}
-                />
-              </div>
+              <AudioRecorder
+                mediaRecorderRef={mediaRecorderRef}
+                setAudioBlob={setAudioBlob}
+              />
               <div className='relative'>
-                <Button
-                  type='button'
-                  onClick={() => setColorPickerOpen(!colorPickerOpen)}
-                  className='p-2 btn-icon mr-1'
-                >
-                  <IoColorPaletteOutline />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger
+                      type='button'
+                      className='btn-icon mr-1 p-2 text-sm rounded'
+                      onClick={() => setColorPickerOpen(!colorPickerOpen)}
+                    >
+                      <IoColorPaletteOutline />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Cambiar color</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 {colorPickerOpen &&  
                   <RgbaStringColorPicker
                     color={color}
@@ -280,25 +308,39 @@ function CrearNotita({ notita, setOpenModal, setNotitas, t }) {
                 }
               </div>
               <div>
-                <Button
-                  type='button'
-                  className='btn-icon mr-1 p-2'
-                  onClick={() => {
-                    const valorPrivada = !form.getValues('privada')
-                    setPrivada(valorPrivada)
-                    form.setValue('privada', valorPrivada)
-                  }}
-                >
-                  {privada ? <HiOutlineLockClosed /> : <HiOutlineLockOpen />}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger
+                      type='button'
+                      className='btn-icon mr-1 p-2 text-sm rounded'
+                      onClick={() => {
+                        const valorPrivada = !form.getValues('privada')
+                        setPrivada(valorPrivada)
+                        form.setValue('privada', valorPrivada)
+                      }}
+                    >
+                      {privada ? <HiOutlineLockClosed /> : <HiOutlineLockOpen />}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Cambiar privacidad</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
               <div>
-                <Button
-                  type='button'
-                  className='btn-icon p-2'
-                >
-                  <HiOutlineBell />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger 
+                      type='button'
+                      className='btn-icon p-2 text-sm rounded'
+                    >
+                      <HiOutlineBell />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Añadir recordatorio</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>

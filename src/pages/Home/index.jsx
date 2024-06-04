@@ -8,7 +8,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Modal } from '@/components/Modal'
 import { CrearNotita } from '@/pages/Home/CrearNotita'
