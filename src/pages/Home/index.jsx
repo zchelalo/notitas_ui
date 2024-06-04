@@ -10,14 +10,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { Modal } from '@/components/Modal'
+import { CrearNotita } from '@/pages/Home/CrearNotita'
 
 import {
   HiOutlinePlus,
   HiOutlineAdjustmentsVertical,
   HiOutlineBarsArrowDown,
 } from 'react-icons/hi2'
-import { Modal } from '@/components/Modal'
-import { CrearNotita } from '@/pages/Home/CrearNotita'
 
 import './Home.css'
 

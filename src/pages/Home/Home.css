@@ -21,18 +21,18 @@
   overflow-y: auto;
 }
 
-.Reactcolorfull .react-colorful {
+.color-picker .react-colorful {
   height: 240px;
   position: absolute;
 }
-.Reactcolorfull .react-colorful__saturation {
+.color-picker .react-colorful__saturation {
   border-radius: 4px 4px 0 0;
 }
-.Reactcolorfull .react-colorful__hue {
+.color-picker .react-colorful__hue {
   height: 40px;
   border-radius: 0 0 4px 4px;
 }
-.Reactcolorfull .react-colorful__hue-pointer {
+.color-picker .react-colorful__hue-pointer {
   width: 12px;
   height: inherit;
   border-radius: 0;
