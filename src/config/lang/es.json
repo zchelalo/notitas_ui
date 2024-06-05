@@ -21,5 +21,10 @@
   "order_by_date": "Ordenar por fecha",
   "filter_by": "Filtrar por",
   "titulo_min_validation": "El título debe tener al menos 3 caracteres",
-  "titulo_max_validation": "El título debe tener menos de 255 caracteres"
+  "titulo_max_validation": "El título debe tener menos de 255 caracteres",
+  "update_notita_success": "Notita actualizada correctamente",
+  "update_notita_error": "Error al actualizar la notita",
+  "audio_transcription_success": "Transcripción de audio exitosa",
+  "audio_transcription_error": "Transcripción de audio fallida",
+  "transcribing_audio": "Transcribiendo audio..."
 } 

@@ -11,8 +11,8 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Modal } from '@/components/Modal'
-import { CrearNotita } from '@/pages/Home/CrearNotita'
 import { Loading } from '@/pages/Home/Loading'
+import { EditorNotita } from '@/components/EditorNotita'
 
 import {
   HiOutlinePlus,
@@ -23,30 +23,25 @@ import {
 import './Home.css'
 
 function Home() {
-  const { usuario } = useAuth()
+  const auth = useAuth()
   const { t } = useTranslation()
 
   const { data: notitas, setData: setNotitas, loading: loadingNotitas, error: errorNotitas } = useFetch({
     url: '/notitas_back/api/v1/notitas/usuarios',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${usuario.token}`,
+      'Authorization': `Bearer ${auth.usuario.token}`,
     }
   })
 
   const [openModal, setOpenModal] = useState(false)
-  const [nota, setNota] = useState({})
+  const [modal, setModal] = useState(null)
 
   return (
     <div className='p-6'>
       {openModal ? (
         <Modal>
-          <CrearNotita
-            notita={nota}
-            setOpenModal={setOpenModal}
-            setNotitas={setNotitas}
-            t={t}
-          />
+          {modal}
         </Modal>
       ) : undefined}
 
@@ -57,7 +52,19 @@ function Home() {
           </h1>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
+              <TooltipTrigger
+                className='btn-icon p-1 rounded cursor-pointer'
+                onClick={() => {
+                  setModal(
+                    <EditorNotita
+                      setNotitas={setNotitas}
+                      setOpenModal={setOpenModal}
+                      accion={'create'}
+                    />
+                  )
+                  setOpenModal(true)
+                }}
+              >
                 <HiOutlinePlus className='text-xl' />
               </TooltipTrigger>
               <TooltipContent>
@@ -101,7 +108,14 @@ function Home() {
                 className={`w-full max-h-[40vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
                 style={notita.color ? { borderColor: notita.color } : undefined}
                 onClick={() => {
-                  setNota(notita)
+                  setModal(
+                    <EditorNotita
+                      notita={notita}
+                      setNotitas={setNotitas}
+                      setOpenModal={setOpenModal}
+                      accion={'update'}
+                    />
+                  )
                   setOpenModal(true)
                 }}
               >

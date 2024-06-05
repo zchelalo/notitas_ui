@@ -21,5 +21,10 @@
   "order_by_date": "Order by date",
   "filter_by": "Filter by",
   "titulo_min_validation": "Title must be at least 3 characters",
-  "titulo_max_validation": "Title must be at most 255 characters"
+  "titulo_max_validation": "Title must be at most 255 characters",
+  "update_notita_success": "Notita updated successfully",
+  "update_notita_error": "Error updating notita",
+  "audio_transcription_success": "Audio transcribed successfully",
+  "audio_transcription_error": "Audio transcription error",
+  "transcribing_audio": "Transcribing audio..."
 }
