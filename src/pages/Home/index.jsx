@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFetch } from '@/hooks/useFetch'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
@@ -19,9 +19,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Modal } from '@/components/Modal'
 import { Loading } from '@/pages/Home/Loading'
-import { EditorNotita } from '@/components/EditorNotita'
+import { Modal } from '@/components/Modal'
+const EditorNotita = lazy(() => import('@/components/EditorNotita').then(({ EditorNotita }) => ({ default: EditorNotita })))
+// import { EditorNotita } from '@/components/EditorNotita'
 
 import {
   HiOutlinePlus,
@@ -44,6 +45,7 @@ function Home() {
 
   const [openModal, setOpenModal] = useState(false)
   const [modal, setModal] = useState(null)
+  const [nota, setNota] = useState({})
 
   const [notas, setNotas] = useState([])
   const [filtro, setFiltro] = useState('todas')
@@ -77,10 +79,29 @@ function Home() {
 
   return (
     <div className='p-6'>
-      {openModal ? (
-        <Modal>
-          {modal}
-        </Modal>
+      {(openModal && modal) ? (
+        <Suspense>
+          <Modal>
+            {modal === 'update' ? (
+              <Suspense>
+                <EditorNotita
+                  notita={nota}
+                  setNotitas={setNotitas}
+                  setOpenModal={setOpenModal}
+                  accion={modal}
+                />
+              </Suspense>
+            ) : (modal === 'create' ? (
+              <Suspense>
+                <EditorNotita
+                  setNotitas={setNotitas}
+                  setOpenModal={setOpenModal}
+                  accion={modal}
+                />
+              </Suspense>
+            ) : undefined)}
+          </Modal>
+        </Suspense>
       ) : undefined}
 
       <div className='flex flex-col items-start sm:flex-row sm:items-center justify-start sm:justify-between mb-2 sm:mb-6'>
@@ -93,13 +114,7 @@ function Home() {
               <TooltipTrigger
                 className='btn-icon p-1 rounded cursor-pointer'
                 onClick={() => {
-                  setModal(
-                    <EditorNotita
-                      setNotitas={setNotitas}
-                      setOpenModal={setOpenModal}
-                      accion={'create'}
-                    />
-                  )
+                  setModal('create')
                   setOpenModal(true)
                 }}
               >
@@ -154,14 +169,8 @@ function Home() {
                 className={`w-full max-h-[40vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
                 style={notita.color ? { borderColor: notita.color } : undefined}
                 onClick={() => {
-                  setModal(
-                    <EditorNotita
-                      notita={notita}
-                      setNotitas={setNotitas}
-                      setOpenModal={setOpenModal}
-                      accion={'update'}
-                    />
-                  )
+                  setNota(notita)
+                  setModal('update')
                   setOpenModal(true)
                 }}
               >
