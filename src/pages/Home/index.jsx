@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFetch } from '@/hooks/useFetch'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
@@ -10,6 +10,15 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { Modal } from '@/components/Modal'
 import { Loading } from '@/pages/Home/Loading'
 import { EditorNotita } from '@/components/EditorNotita'
@@ -36,6 +45,32 @@ function Home() {
 
   const [openModal, setOpenModal] = useState(false)
   const [modal, setModal] = useState(null)
+
+  const [notas, setNotas] = useState([])
+  const [filtro, setFiltro] = useState('todas')
+
+  useEffect(() => {
+    if (!notitas) return
+
+    if (filtro === 'todas') {
+      setNotas(notitas)
+    } else if (filtro === 'fotos') {
+
+      const regex = /<img\s+[^>]*src="[^"]*"[^>]*>/i
+      const notasConFotos = notitas.filter(notita => regex.test(notita.nota))
+      setNotas(notasConFotos)
+
+    } else if (filtro === 'videos') {
+
+      const regex = /<iframe\s+[^>]*src="[^"]*"[^>]*>/i
+      const notasConVideos = notitas.filter(notita => regex.test(notita.nota))
+      setNotas(notasConVideos)
+
+    } else {
+      setNotas(notitas)
+    }
+
+  }, [filtro, notitas])
 
   return (
     <div className='p-6'>
@@ -74,35 +109,43 @@ function Home() {
           </TooltipProvider>
         </div>
         <div className='w-full sm:w-auto flex items-center justify-end'>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer mr-2'>
-                <HiOutlineBarsArrowDown className='text-xl' />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('order_by_date')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
 
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
-                <HiOutlineAdjustmentsVertical className='text-xl' />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t('filter_by')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <DropdownMenu>
+
+            <TooltipProvider>
+              <Tooltip>
+                <DropdownMenuTrigger asChild>
+                  <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
+                    <HiOutlineAdjustmentsVertical className='text-xl' />
+                  </TooltipTrigger>
+                </DropdownMenuTrigger>
+                <TooltipContent>
+                  <p>{t('filter_by')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <DropdownMenuContent className='w-56'>
+              <DropdownMenuLabel>{t('filter_by')}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value={filtro} onValueChange={setFiltro}>
+                <DropdownMenuRadioItem value='todas'>Todas las notitas</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='fotos'>Notitas con fotos</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='videos'>Notitas con videos</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='recordatorios'>Notitas con recordatorios</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+            
+          </DropdownMenu>
+
         </div>
       </div>
       {loadingNotitas ? <Loading /> : undefined}
       {(!loadingNotitas && errorNotitas) ? <p>Error: {errorNotitas}</p> : undefined}
-      {(!loadingNotitas && !errorNotitas && notitas?.length > 0) ? (
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3, 1200: 4 }}>
+      {(!loadingNotitas && !errorNotitas && notas?.length > 0) ? (
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3, 1200: 4, 1500: 5 }}>
           <Masonry gutter='1rem'>
-            {notitas?.map(notita => (
+            {notas?.map(notita => (
               <div
                 key={notita.id}
                 className={`w-full max-h-[40vh] block border-2 ${!notita.color ? 'border-zinc-900' : undefined} rounded p-2 box-border overflow-hidden home-notita cursor-pointer`}
