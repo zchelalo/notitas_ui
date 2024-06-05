@@ -53,23 +53,27 @@ function Home() {
     if (!notitas) return
 
     if (filtro === 'todas') {
+
       setNotas(notitas)
+      return
+      
     } else if (filtro === 'fotos') {
 
       const regex = /<img\s+[^>]*src="[^"]*"[^>]*>/i
       const notasConFotos = notitas.filter(notita => regex.test(notita.nota))
       setNotas(notasConFotos)
+      return
 
     } else if (filtro === 'videos') {
 
       const regex = /<iframe\s+[^>]*src="[^"]*"[^>]*>/i
       const notasConVideos = notitas.filter(notita => regex.test(notita.nota))
       setNotas(notasConVideos)
+      return
 
-    } else {
-      setNotas(notitas)
     }
 
+    setNotas(notitas)
   }, [filtro, notitas])
 
   return (
