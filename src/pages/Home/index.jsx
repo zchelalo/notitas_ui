@@ -25,8 +25,7 @@ import { EditorNotita } from '@/components/EditorNotita'
 
 import {
   HiOutlinePlus,
-  HiOutlineAdjustmentsVertical,
-  HiOutlineBarsArrowDown,
+  HiOutlineAdjustmentsVertical
 } from 'react-icons/hi2'
 
 import './Home.css'
@@ -56,7 +55,7 @@ function Home() {
 
       setNotas(notitas)
       return
-      
+
     } else if (filtro === 'fotos') {
 
       const regex = /<img\s+[^>]*src="[^"]*"[^>]*>/i
