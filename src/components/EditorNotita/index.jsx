@@ -210,6 +210,9 @@ function EditorNotita({ notita = {}, setNotitas, setOpenModal, accion = 'create'
           ) : undefined}
 
           <HeaderEditor
+            accion={accion}
+            setOpenModal={setOpenModal}
+
             form={form}
 
             color={color}

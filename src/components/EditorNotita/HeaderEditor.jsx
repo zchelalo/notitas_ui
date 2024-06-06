@@ -14,11 +14,16 @@ import {
   HiOutlineBell,
   HiOutlineChevronLeft,
   HiOutlineLockOpen,
-  HiOutlineLockClosed
+  HiOutlineLockClosed,
+  HiOutlinePlus,
+  HiOutlineXMark
 } from 'react-icons/hi2'
 import { IoColorPaletteOutline } from 'react-icons/io5'
 
 function HeaderEditor({
+  accion,
+  setOpenModal,
+
   form,
 
   color,
@@ -40,11 +45,31 @@ function HeaderEditor({
       <div>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger 
-              type='submit'
+            <TooltipTrigger
+              type={() => {
+                if (accion === 'create' && !form.getValues('titulo')) {
+                  return 'button'
+                } else {
+                  return 'submit'
+                }
+              }}
+              onClick={() => {
+                if (accion === 'create' && !form.getValues('titulo')) {
+                  setOpenModal(false)
+                }
+              }}
               className='btn-icon p-2 text-sm rounded'
             >
-              <HiOutlineChevronLeft />
+              {accion !== 'create' ? (
+                <HiOutlineChevronLeft />
+              ) : (
+                (accion === 'create' && !form.getValues('titulo')) ? (
+                  <HiOutlineXMark />
+                ) : (
+                  <HiOutlinePlus />
+                )
+              )}
+              
             </TooltipTrigger>
             <TooltipContent>
               <p>Cerrar editor</p>
