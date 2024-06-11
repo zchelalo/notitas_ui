@@ -26,5 +26,9 @@
   "update_notita_error": "Error updating notita",
   "audio_transcription_success": "Audio transcribed successfully",
   "audio_transcription_error": "Audio transcription error",
-  "transcribing_audio": "Transcribing audio..."
+  "transcribing_audio": "Transcribing audio...",
+  "add_reminder": "Add reminder",
+  "change_privacy": "Change privacy",
+  "change_color": "Change color",
+  "close_editor": "Close editor"
 }

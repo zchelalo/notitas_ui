@@ -26,5 +26,9 @@
   "update_notita_error": "Error al actualizar la notita",
   "audio_transcription_success": "Transcripción de audio exitosa",
   "audio_transcription_error": "Transcripción de audio fallida",
-  "transcribing_audio": "Transcribiendo audio..."
+  "transcribing_audio": "Transcribiendo audio...",
+  "add_reminder": "Agregar recordatorio",
+  "change_privacy": "Cambiar privacidad",
+  "change_color": "Cambiar color",
+  "close_editor": "Cerrar editor"
 } 

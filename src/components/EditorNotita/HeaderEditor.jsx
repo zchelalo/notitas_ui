@@ -72,7 +72,7 @@ function HeaderEditor({
               
             </TooltipTrigger>
             <TooltipContent>
-              <p>Cerrar editor</p>
+              <p>{t('close_editor')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -95,7 +95,7 @@ function HeaderEditor({
                 <IoColorPaletteOutline />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Cambiar color</p>
+                <p>{t('change_color')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -123,7 +123,7 @@ function HeaderEditor({
                 {privada ? <HiOutlineLockClosed /> : <HiOutlineLockOpen />}
               </TooltipTrigger>
               <TooltipContent>
-                <p>Cambiar privacidad</p>
+                <p>{t('change_privacy')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -139,7 +139,7 @@ function HeaderEditor({
                 <HiOutlineBell />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Añadir recordatorio</p>
+                <p>{t('add_reminder')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
