@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFetch } from '@/hooks/useFetch'
 import { useAuth } from '@/contexts/AuthContext/useAuth'
@@ -10,24 +10,12 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+import { FiltroButton } from '@/components/FiltroButton'
 import { Loading } from '@/pages/Home/Loading'
 import { Modal } from '@/components/Modal'
 const EditorNotita = lazy(() => import('@/components/EditorNotita').then(({ EditorNotita }) => ({ default: EditorNotita })))
-// import { EditorNotita } from '@/components/EditorNotita'
 
-import {
-  HiOutlinePlus,
-  HiOutlineAdjustmentsVertical
-} from 'react-icons/hi2'
+import { HiOutlinePlus } from 'react-icons/hi2'
 
 import './Home.css'
 
@@ -48,34 +36,6 @@ function Home() {
   const [nota, setNota] = useState({})
 
   const [notas, setNotas] = useState([])
-  const [filtro, setFiltro] = useState('todas')
-
-  useEffect(() => {
-    if (!notitas) return
-
-    if (filtro === 'todas') {
-
-      setNotas(notitas)
-      return
-
-    } else if (filtro === 'fotos') {
-
-      const regex = /<img\s+[^>]*src="[^"]*"[^>]*>/i
-      const notasConFotos = notitas.filter(notita => regex.test(notita.nota))
-      setNotas(notasConFotos)
-      return
-
-    } else if (filtro === 'videos') {
-
-      const regex = /<iframe\s+[^>]*src="[^"]*"[^>]*>/i
-      const notasConVideos = notitas.filter(notita => regex.test(notita.nota))
-      setNotas(notasConVideos)
-      return
-
-    }
-
-    setNotas(notitas)
-  }, [filtro, notitas])
 
   return (
     <div className='p-6'>
@@ -127,35 +87,10 @@ function Home() {
           </TooltipProvider>
         </div>
         <div className='w-full sm:w-auto flex items-center justify-end'>
-
-          <DropdownMenu>
-
-            <TooltipProvider>
-              <Tooltip>
-                <DropdownMenuTrigger asChild>
-                  <TooltipTrigger className='btn-icon p-1 rounded cursor-pointer'>
-                    <HiOutlineAdjustmentsVertical className='text-xl' />
-                  </TooltipTrigger>
-                </DropdownMenuTrigger>
-                <TooltipContent>
-                  <p>{t('filter_by')}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <DropdownMenuContent className='w-56'>
-              <DropdownMenuLabel>{t('filter_by')}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={filtro} onValueChange={setFiltro}>
-                <DropdownMenuRadioItem value='todas'>Todas las notitas</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value='fotos'>Notitas con fotos</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value='videos'>Notitas con videos</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value='recordatorios'>Notitas con recordatorios</DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-            
-          </DropdownMenu>
-
+          <FiltroButton
+            notitas={notitas}
+            setNotas={setNotas}
+          />
         </div>
       </div>
       {loadingNotitas ? <Loading /> : undefined}
