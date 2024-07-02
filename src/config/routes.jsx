@@ -38,7 +38,7 @@ function Rutas() {
       path: '/',
       element: (
         <AuthRoute>
-          <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+          <RoleRestrictedRoute roles={['admin', 'cliente']}>
             <Home />
           </RoleRestrictedRoute>
         </AuthRoute>
@@ -93,7 +93,7 @@ function Rutas() {
           path: 'perfil/editar',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <EditarPerfil />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -108,7 +108,7 @@ function Rutas() {
           path: '/',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <Home />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -123,7 +123,7 @@ function Rutas() {
           path: 'perfil/notitas-privadas',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <NotitasPrivadas />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -148,7 +148,7 @@ function Rutas() {
           path: 'grupos/mis-grupos',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <MisGrupos />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -163,7 +163,7 @@ function Rutas() {
           path: 'grupos/mis-grupos/:grupo_id',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <Grupo />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -176,7 +176,7 @@ function Rutas() {
           path: 'grupos/crear-grupo',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <CrearGrupo />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -201,7 +201,7 @@ function Rutas() {
           path: 'configuracion/general',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <ConfGeneral />
               </RoleRestrictedRoute>
             </AuthRoute>
@@ -216,7 +216,7 @@ function Rutas() {
           path: 'configuracion/privacidad',
           element: (
             <AuthRoute>
-              <RoleRestrictedRoute allowed_roles={['admin', 'cliente']}>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
                 <ConfPrivacidad />
               </RoleRestrictedRoute>
             </AuthRoute>

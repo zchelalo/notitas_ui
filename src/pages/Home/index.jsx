@@ -93,6 +93,7 @@ function Home() {
           />
         </div>
       </div>
+
       {loadingNotitas ? <Loading /> : undefined}
       {(!loadingNotitas && errorNotitas) ? <p>Error: {errorNotitas}</p> : undefined}
       {(!loadingNotitas && !errorNotitas && notas?.length > 0) ? (
@@ -121,7 +122,7 @@ function Home() {
       ) : loadingNotitas ? undefined : (
         <div>No hay notitas</div>
       )}
-      
+
     </div>
   )
 }

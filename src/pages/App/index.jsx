@@ -21,7 +21,7 @@ function App() {
   const { idioma, handleChangeIdioma } = useIdioma()
   const { tema, handleChangeTema } = useTema()
 
-  const items = routes.reduce((rutas, ruta) => {
+  const items = routes.reduce((rutas, ruta) => { 
     if (!ruta.name) return rutas
 
     if (ruta.private && !auth.usuario) return rutas
@@ -75,12 +75,6 @@ function App() {
     >
       <Routes>
         {routes && routes.map(route => {
-          // if (route.private && !auth.usuario) return undefined
-
-          // if (route.allowed_roles && !route.allowed_roles.includes(auth.usuario.rol)) return undefined
-      
-          // if (route.public_only && auth.usuario) return undefined
-
           if (route.nestedRoutes) {
             return (
               <Route

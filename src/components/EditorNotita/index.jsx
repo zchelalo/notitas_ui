@@ -24,7 +24,15 @@ import { HeaderEditor } from '@/components/EditorNotita/HeaderEditor'
 import 'react-quill/dist/quill.snow.css'
 import './EditorNotita.css'
 
-function EditorNotita({ notita = {}, setNotitas, setOpenModal, accion = 'create' }) {
+function EditorNotita({
+  notita = {},
+  setNotitas,
+  setOpenModal,
+  accion = 'create',
+  notaGrupal = false,
+  grupoId = undefined,
+  rol = 'invitado'
+}) {
   const { t } = useTranslation()
   const { toast } = useToast()
   const auth = useAuth()
@@ -122,6 +130,61 @@ function EditorNotita({ notita = {}, setNotitas, setOpenModal, accion = 'create'
     }
   }
 
+  const actualizarNotitaGrupal = async data => {
+    try {
+      data.color = color
+      data.nota = nota
+
+      if (
+        data.titulo === notita.titulo &&
+        data.nota === notita.nota &&
+        data.color === notita.color &&
+        data.privada === notita.privada
+      ) {
+        return setOpenModal(false)
+      }
+
+      const response = await fetchData({
+        url: `/notitas_back/api/v1/notitas/grupos/${grupoId}/${notita.id}`,
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.usuario.token}`
+        },
+        setUsuario: auth.setUsuario
+      })
+
+      setNotitas(prevNotitas => {
+        const index = prevNotitas.findIndex(n => n.id === notita.id)
+        prevNotitas[index] = response
+        return prevNotitas
+      })
+
+      toast({
+        description: t('update_notita_success')
+      })
+    } catch (error) {
+      if (error?.status && error?.status === 401) {
+        auth.logout()
+      }
+
+      toast({
+        title: 'Error',
+        description: t('update_notita_error')
+      })
+    } finally {
+      setOpenModal(false)
+      if (mediaRecorderRef?.current?.state && mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stop()
+        toast({
+          title: 'Audio',
+          description: 'Se ha cancelado la grabación de audio'
+        })
+      }
+    }
+  }
+
   const crearNotita = async data => {
     try {
       data.color = color
@@ -144,7 +207,48 @@ function EditorNotita({ notita = {}, setNotitas, setOpenModal, accion = 'create'
         description: t('create_notita_success')
       })
     } catch (error) {
-      console.log(error)
+      if (error?.status && error?.status === 401) {
+        auth.logout()
+      }
+
+      toast({
+        title: 'Error',
+        description: t('create_notita_error')
+      })
+    } finally {
+      setOpenModal(false)
+      if (mediaRecorderRef?.current?.state && mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stop()
+        toast({
+          title: 'Audio',
+          description: 'Se ha cancelado la grabación de audio'
+        })
+      }
+    }
+  }
+
+  const crearNotitaGrupal = async data => {
+    try {
+      data.color = color
+      data.nota = nota
+
+      const response = await fetchData({
+        url: `/notitas_back/api/v1/notitas/grupos/${grupoId}`,
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.usuario.token}`
+        },
+        setUsuario: auth.setUsuario
+      })
+
+      setNotitas(prevNotitas => [response, ...prevNotitas])
+
+      toast({
+        description: t('create_notita_success')
+      })
+    } catch (error) {
       if (error?.status && error?.status === 401) {
         auth.logout()
       }
@@ -166,10 +270,16 @@ function EditorNotita({ notita = {}, setNotitas, setOpenModal, accion = 'create'
   }
 
   const onSubmit = async data => {
+    if (notaGrupal && rol === 'invitado') {
+      return setOpenModal(false)
+    }
+
     if (accion === 'update') {
+      if (notaGrupal) return actualizarNotitaGrupal(data)
       return actualizarNotita(data)
     }
 
+    if (notaGrupal) return crearNotitaGrupal(data)
     return crearNotita(data)
   }
 
