@@ -19,6 +19,8 @@ import { Grupo } from '@/pages/Grupo'
 import { ConfGeneral } from '@/pages/ConfGeneral'
 import { ConfPrivacidad } from '@/pages/ConfPrivacidad'
 
+import { Invitacion } from '@/pages/Invitacion'
+
 import {
   HiOutlineUserCircle,
   HiOutlineUserGroup,
@@ -173,6 +175,19 @@ function Rutas() {
           allowed_roles: ['admin', 'cliente']
         },
         {
+          path: 'grupos/mis-grupos/:grupo_id/configuracion',
+          element: (
+            <AuthRoute>
+              <RoleRestrictedRoute roles={['admin', 'cliente']}>
+                <Grupo />
+              </RoleRestrictedRoute>
+            </AuthRoute>
+          ),
+          private: true,
+          public_only: false,
+          allowed_roles: ['admin', 'cliente']
+        },
+        {
           path: 'grupos/crear-grupo',
           element: (
             <AuthRoute>
@@ -234,6 +249,19 @@ function Rutas() {
       element: <Error404 />,
       private: false,
       public_only: false
+    },
+    {
+      path: 'invitacion/:token',
+      element: (
+        <AuthRoute>
+          <RoleRestrictedRoute roles={['admin', 'cliente']}>
+            <Invitacion />
+          </RoleRestrictedRoute>
+        </AuthRoute>
+      ),
+      private: true,
+      public_only: false,
+      allowed_roles: ['admin', 'cliente']
     },
   ]
 }

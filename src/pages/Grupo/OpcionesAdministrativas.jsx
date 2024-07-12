@@ -37,6 +37,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import {
   HiOutlineUserPlus,
@@ -49,6 +50,7 @@ function OpcionesAdministrativas({
 }) {
   const { t } = useTranslation()
   const { toast } = useToast()
+  const location = useLocation()
   const auth = useAuth()
 
   const [modalInvitacion, setModalInvitacion] = useState(false)
@@ -205,7 +207,9 @@ function OpcionesAdministrativas({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger className='h-auto w-auto bg-white hover:bg-zinc-200 text-zinc-900 dark:bg-black dark:hover:bg-zinc-950 dark:text-zinc-100 p-1 rounded cursor-pointer'>
-              <HiOutlineCog6Tooth className='text-xl' />
+              <NavLink to={`${location.pathname}/configuracion`}>
+                <HiOutlineCog6Tooth className='text-xl' />
+              </NavLink>
             </TooltipTrigger>
             <TooltipContent>
               <p>Configuración del grupo</p>
