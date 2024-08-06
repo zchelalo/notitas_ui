@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/tooltip'
 import { RgbaStringColorPicker } from 'react-colorful'
 import { AudioRecorder } from '@/components/AudioRecorder'
+import { TextToAudio } from '@/components/TextToAudio'
 
 import {
   HiOutlineBell,
@@ -33,7 +34,9 @@ function HeaderEditor({
   setPrivada,
 
   setAudioBlob,
-  mediaRecorderRef
+  mediaRecorderRef,
+
+  nota
 }) {
   const { t } = useTranslation()
 
@@ -82,6 +85,10 @@ function HeaderEditor({
         <AudioRecorder
           mediaRecorderRef={mediaRecorderRef}
           setAudioBlob={setAudioBlob}
+        />
+
+        <TextToAudio
+          nota={nota}
         />
 
         <div className='relative'>

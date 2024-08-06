@@ -38,7 +38,7 @@ function ModalAudio({
 
       const response = await fetchData({
         // url: `/notitas_back/api/v1/notitas/transcripcion`,
-        url: `/notitas_back/api/v1/transcribir_audio`,
+        url: `/notitas_back/api/v1/transcripcion/audio_trascription`,
         method: 'POST',
         body: formData,
         headers: {

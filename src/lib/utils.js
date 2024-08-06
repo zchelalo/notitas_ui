@@ -41,7 +41,8 @@ export const fetchData = async ({
   headers = { 'Content-Type': 'application/json' },
   credentials,
   authRoute = false,
-  setUsuario
+  setUsuario,
+  esAudio = false
 }) => {
   try {
     const response = await fetch(`${back_url}${url}`, {
@@ -52,51 +53,53 @@ export const fetchData = async ({
     })
 
     if (!response.ok) { 
-      if (response.status === 401 && authRoute) {
+      if ((response.status === 401 || response.status === 403) && authRoute) {
         throw await formatResponseError(response)
       }
 
-      if (response.status === 401) { // 401 Unauthorized
-        // Intentar renovar el token
-        const refreshResponse = await fetch(`${back_url}/notitas_auth/api/v1/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include' // Esto es para incluir las cookies httpOnly en la solicitud
-        })
-
-        if (!refreshResponse.ok) {
-          throw await formatResponseError(refreshResponse)
-        }
-
-        const refreshData = await refreshResponse.json()
-
-        // Guardar el nuevo token en local storage
-        const usuario = crearUsuarioByTokenResponse(refreshData)
-        guardarUsuarioEnStorage(usuario)
-        setUsuario(usuario)
-
-        // Guardar el nuevo token en los encabezados
-        headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
-
-        // Reintentar la solicitud original
-        const retryResponse = await fetch(`${back_url}${url}`, {
-          method: method,
-          headers: headers,
-          body: body
-        })
-
-        if (!retryResponse.ok) {
-          throw await formatResponseError(retryResponse)
-        }
-
-        const retryData = await retryResponse.json()
-        return retryData
+      if (response.status !== 401) { // 401 Unauthorized
+        throw await formatResponseError(response)
       }
 
-      throw await formatResponseError(response)
+      // Intentar renovar el token
+      const refreshResponse = await fetch(`${back_url}/notitas_auth/api/v1/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' // Esto es para incluir las cookies httpOnly en la solicitud
+      })
+
+      if (!refreshResponse.ok) {
+        throw await formatResponseError(refreshResponse)
+      }
+
+      const refreshData = await refreshResponse.json()
+
+      // Guardar el nuevo token en local storage
+      const usuario = crearUsuarioByTokenResponse(refreshData)
+      guardarUsuarioEnStorage(usuario)
+      setUsuario(usuario)
+
+      // Guardar el nuevo token en los encabezados
+      headers = { ...headers, 'Authorization': `Bearer ${refreshData.token}` }
+
+      // Reintentar la solicitud original
+      const retryResponse = await fetch(`${back_url}${url}`, {
+        method: method,
+        headers: headers,
+        body: body
+      })
+
+      if (!retryResponse.ok) {
+        throw await formatResponseError(retryResponse)
+      }
+
+      let retryData = retryResponse
+      if (!esAudio) retryData = await retryResponse.json()
+      return retryData
     }
 
-    const data = await response.json()
+    let data = response
+    if (!esAudio) data = await response.json()
     return data
   } catch (error) {
     throw error

@@ -333,6 +333,8 @@ function EditorNotita({
 
             setAudioBlob={setAudioBlob}
             mediaRecorderRef={mediaRecorderRef}
+
+            nota={nota}
           />
 
           <FormField

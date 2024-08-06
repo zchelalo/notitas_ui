@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "electron": "^30.0.8",
     "electron-is-dev": "^3.0.1",
+    "html-to-text": "^9.0.5",
     "i18next": "^23.11.4",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
